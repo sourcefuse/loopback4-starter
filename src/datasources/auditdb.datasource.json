@@ -1,0 +1,10 @@
+{
+  "name": "auditdb",
+  "connector": "postgresql",
+  "host": "DB_HOST",
+  "port": "DB_PORT",
+  "user": "DB_USER",
+  "password": "DB_PASSWORD",
+  "database": "DB_DATABASE",
+  "schema": "AUDIT_SCHEMA"
+}

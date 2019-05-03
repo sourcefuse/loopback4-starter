@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as path from 'path';
 import {MySequence} from './sequence';
+import {SoftDeleteComponent, SoftCrudRepository} from 'loopback4-soft-delete';
 
 export class Loopback4StarterApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -28,13 +29,20 @@ export class Loopback4StarterApplication extends BootMixin(
     });
     this.component(RestExplorerComponent);
 
+    this.component(SoftDeleteComponent);
+
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
-        dirs: ['controllers'],
+        dirs: ['controllers', 'modules'],
         extensions: ['.controller.js'],
+        nested: true,
+      },
+      repositories: {
+        dirs: ['repositories'],
+        extensions: ['.repository.js'],
         nested: true,
       },
     };

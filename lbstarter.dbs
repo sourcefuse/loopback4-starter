@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PostgreSQL" id="Project_2cbf47" template="Default" database="PostgreSQL" >
+	<schema name="lbstarter" schemaname="lbstarter" >
+		<table name="roles" >
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="name" type="varchar" length="100" decimal="0" jt="12" mandatory="y" />
+			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<column name="permissions" type="_text" decimal="0" jt="2003" />
+			<column name="role_key" type="integer" jt="4" mandatory="y" />
+			<index name="pk_roles_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_roles_key" unique="NORMAL" >
+				<column name="role_key" />
+			</index>
+		</table>
+		<table name="tenants" >
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="name" type="varchar" length="100" decimal="0" jt="12" mandatory="y" />
+			<column name="type" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
+			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<column name="address1" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="address2" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="address3" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="address4" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="city" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="state" type="varchar" length="100" decimal="0" jt="12" />
+			<column name="zip" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="country" type="varchar" length="50" decimal="0" jt="12" />
+			<column name="status" type="varchar" length="50" jt="12" mandatory="y" >
+				<defo>&#039;active&#039;::character varying</defo>
+			</column>
+			<index name="pk_tenant_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_tenants_created_by" unique="NORMAL" >
+				<column name="created_by" />
+			</index>
+			<index name="idx_tenants_modified_by" unique="NORMAL" >
+				<column name="modified_by" />
+			</index>
+			<fk name="fk_created_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="created_by" pk="id" />
+			</fk>
+			<fk name="fk_modified_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="modified_by" pk="id" />
+			</fk>
+		</table>
+		<table name="user_tenant_permissions" >
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="user_tenant_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="created_on" type="date" length="13" decimal="0" jt="91" mandatory="y" >
+				<defo>CURRENT_DATE</defo>
+			</column>
+			<column name="modified_on" type="date" length="13" decimal="0" jt="91" mandatory="y" >
+				<defo>CURRENT_DATE</defo>
+			</column>
+			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<column name="permission" type="text" decimal="0" jt="12" mandatory="y" />
+			<column name="allowed" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>true</defo>
+			</column>
+			<index name="pk_user_permissions_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_user_tenant_permissions_created_by" unique="NORMAL" >
+				<column name="created_by" />
+			</index>
+			<index name="idx_user_tenant_permissions_modified_by" unique="NORMAL" >
+				<column name="modified_by" />
+			</index>
+			<index name="idx_user_tenant_permissions_user_tenant_id" unique="NORMAL" >
+				<column name="user_tenant_id" />
+			</index>
+			<fk name="fk_created_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="created_by" pk="id" />
+			</fk>
+			<fk name="fk_modified_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="modified_by" pk="id" />
+			</fk>
+			<fk name="fk_user_tenant_permissions" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="user_tenant_id" pk="id" />
+			</fk>
+		</table>
+		<table name="user_tenants" >
+			<comment><![CDATA[User Tenant Mapping table]]></comment>
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="user_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="tenant_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<column name="role_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>5</defo>
+			</column>
+			<column name="status" type="varchar" length="50" decimal="0" jt="12" mandatory="y" >
+				<defo>&#039;active&#039;::character varying</defo>
+			</column>
+			<index name="pk_user_tenant_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_user_tenant_tenant_id" unique="NORMAL" >
+				<column name="tenant_id" />
+			</index>
+			<index name="idx_user_tenant_user_id" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="idx_user_tenants_role_id" unique="NORMAL" >
+				<column name="role_id" />
+			</index>
+			<fk name="fk_user_tenants_roles" to_schema="lbstarter" to_table="roles" >
+				<fk_column name="role_id" pk="id" />
+			</fk>
+			<fk name="fk_user_tenant_tenant" to_schema="lbstarter" to_table="tenants" >
+				<fk_column name="tenant_id" pk="id" />
+			</fk>
+			<fk name="fk_user_tenant_user" to_schema="lbstarter" to_table="users" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
+		<table name="users" >
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="first_name" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
+			<column name="middle_name" type="varchar" length="50" decimal="0" jt="12" />
+			<column name="last_name" type="varchar" length="50" decimal="0" jt="12" />
+			<column name="username" type="varchar" length="150" decimal="0" jt="12" mandatory="y" />
+			<column name="email" type="varchar" length="150" decimal="0" jt="12" />
+			<column name="phone" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="password" type="varchar" length="60" decimal="0" jt="12" mandatory="y" />
+			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
+			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<column name="default_tenant" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="last_login" type="timestamptz" length="35" decimal="6" jt="93" />
+			<index name="pk_user_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_username" unique="UNIQUE" >
+				<column name="username" />
+			</index>
+			<index name="idx_user_created_by" unique="NORMAL" >
+				<column name="created_by" />
+			</index>
+			<index name="idx_user_modified_by" unique="NORMAL" >
+				<column name="modified_by" />
+			</index>
+			<index name="idx_users_default_tenant" unique="NORMAL" >
+				<column name="default_tenant" />
+			</index>
+			<fk name="fk_users_tenants_default_tenant" to_schema="lbstarter" to_table="tenants" >
+				<fk_column name="default_tenant" pk="id" />
+			</fk>
+			<fk name="fk_user_user_tenant_created_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="created_by" pk="id" />
+			</fk>
+			<fk name="fk_user_user_tenant_modified_by" to_schema="lbstarter" to_table="user_tenants" >
+				<fk_column name="modified_by" pk="id" />
+			</fk>
+		</table>
+		<sequence name="roles_id_seq" start="1" />
+		<sequence name="roles_id_seq1" start="1" />
+		<sequence name="tenants_id_seq" start="1" />
+		<sequence name="tenants_id_seq1" start="1" />
+		<sequence name="user_tenant_permissions_id_seq" start="1" />
+		<sequence name="user_tenant_permissions_id_seq1" start="1" />
+		<sequence name="user_tenants_id_seq" start="1" />
+		<sequence name="user_tenants_id_seq1" start="1" />
+		<sequence name="users_id_seq" start="1" />
+		<sequence name="users_id_seq1" start="1" />
+		<trigger name="mdt_roles" table="roles" id="Trigger_377b014" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER mdt_roles BEFORE UPDATE ON lbstarter.roles FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
+		</trigger>
+		<trigger name="mdt_tenants" table="tenants" id="Trigger_1513b2f" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER mdt_tenants BEFORE UPDATE ON lbstarter.tenants FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
+		</trigger>
+		<trigger name="mdt_user_tenant_permissions" table="user_tenant_permissions" id="Trigger_3f13971" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER mdt_user_tenant_permissions BEFORE UPDATE ON lbstarter.user_tenant_permissions FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
+		</trigger>
+		<trigger name="mdt_user_tenants" table="user_tenants" id="Trigger_1aa5640" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER mdt_user_tenants BEFORE UPDATE ON lbstarter.user_tenants FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
+		</trigger>
+		<trigger name="mdt_users" table="users" id="Trigger_47ba329" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER mdt_users BEFORE UPDATE ON lbstarter.users FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
+		</trigger>
+		<trigger name="roles_audit_trigger" table="roles" id="Trigger_484ede6" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER roles_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.roles FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
+		</trigger>
+		<trigger name="tenants_audit_trigger" table="tenants" id="Trigger_2c99451" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER tenants_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.tenants FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
+		</trigger>
+		<trigger name="user_tenant_permissions_audit_trigger" table="user_tenant_permissions" id="Trigger_45615d" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER user_tenant_permissions_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.user_tenant_permissions FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
+		</trigger>
+		<trigger name="users_audit_trigger" table="users" id="Trigger_29c08a1" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER users_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.users FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
+		</trigger>
+	</schema>
+	<schema name="logs" schemaname="logs" >
+		<table name="audit_logs" >
+			<column name="operation_name" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<column name="operation_time" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="table_name" type="varchar" length="60" decimal="0" jt="12" mandatory="y" />
+			<column name="log_type" type="varchar" length="100" decimal="0" jt="12" >
+				<defo>&#039;APPLICATION_LOGS&#039;::character varying</defo>
+			</column>
+			<column name="entity_id" type="varchar" decimal="0" jt="12" />
+			<column name="user_id" type="varchar" decimal="0" jt="12" />
+			<column name="before" type="jsonb" decimal="0" jt="1111" />
+			<column name="after" type="jsonb" decimal="0" jt="1111" />
+			<column name="id" type="integer" jt="4" mandatory="y" autoincrement="y" />
+			<index name="pk_audit_logs_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<sequence name="audit_logs_id_seq" start="1" />
+		<procedure name="audit_trigger" id="Procedure_133635" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE OR REPLACE FUNCTION logs.audit_trigger()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+  DECLARE
+    USER_ID VARCHAR;
+    ENTITY_ID VARCHAR;
+BEGIN
+IF TG_OP = 'INSERT'
+THEN
+USER_ID := to_json(NEW)->'created_by';
+ENTITY_ID := to_json(NEW)->'id';
+INSERT INTO logs.audit_logs (
+  operation_name,
+  table_name,
+  log_type,
+  entity_id,
+  user_id,
+  after
+  )
+VALUES (
+  TG_OP,
+  TG_TABLE_NAME,
+  TG_ARGV[0],
+  ENTITY_ID,
+  USER_ID,
+  to_jsonb(NEW)
+  );
+RETURN NEW;
+ELSIF TG_OP = 'UPDATE'
+THEN
+USER_ID := to_json(NEW)->'modified_by';
+ENTITY_ID := to_json(NEW)->'id';
+-- IF NEW != OLD THEN
+ INSERT INTO logs.audit_logs (
+   operation_name,
+   table_name,
+   log_type,
+   entity_id,
+   user_id,
+   before,
+   after
+   )
+VALUES (
+  TG_OP,
+  TG_TABLE_NAME,
+  TG_ARGV[0],
+  ENTITY_ID,
+  USER_ID,
+  to_jsonb(OLD),
+  to_jsonb(NEW)
+  );
+-- END IF;
+ RETURN NEW;
+ELSIF TG_OP = 'DELETE'
+THEN
+USER_ID := to_json(OLD)->'modified_by';
+ENTITY_ID := to_json(OLD)->'id';
+INSERT INTO logs.audit_logs (
+  operation_name,
+  table_name,
+  log_type,
+  entity_id,
+  user_id,
+  before)
+VALUES (
+  TG_OP,
+  TG_TABLE_NAME,
+  TG_ARGV[0],
+  ENTITY_ID,
+  USER_ID,
+  to_jsonb(OLD)
+);
+RETURN OLD;
+END IF;
+END;
+$function$
+;]]></string>
+			<result_param name="returnValue" jt="1111" type="trigger" />
+		</procedure>
+	</schema>
+	<schema name="public" catalogname="lbstarter" schemaname="public" >
+		<table name="migrations" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="run_on" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" />
+			<index name="migrations_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<sequence name="migrations_id_seq" start="1" />
+		<procedure name="moddatetime" id="Procedure_4f4e99" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE OR REPLACE FUNCTION public.moddatetime()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.modified_on = now();
+    RETURN NEW;
+END;
+$function$
+;]]></string>
+			<result_param name="returnValue" jt="1111" type="trigger" />
+		</procedure>
+	</schema>
+	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.2.2.jar" driver_desc="Standard" host="localhost" port="5432" instance="lbstarter" user="postgres" passwd="cG9zdGdyZXN0ZXN0" />
+	<layout name="Parsed Script Layout" id="Layout_1041beb" joined_routing="y" show_relation="no_text" >
+		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="80" />
+		<entity schema="lbstarter" name="roles" color="BED3F4" x="112" y="336" />
+		<entity schema="lbstarter" name="user_tenants" color="BED3F4" x="288" y="336" />
+		<entity schema="lbstarter" name="users" color="BED3F4" x="272" y="576" />
+		<entity schema="lbstarter" name="tenants" color="BED3F4" x="464" y="336" />
+		<entity schema="logs" name="audit_logs" color="3986C1" x="672" y="80" />
+		<group name="user_tenants" color="ECF0F7" >
+			<entity schema="lbstarter" name="user_tenants" />
+			<entity schema="lbstarter" name="tenants" />
+			<entity schema="lbstarter" name="users" />
+			<entity schema="lbstarter" name="roles" />
+			<entity schema="lbstarter" name="user_tenant_permissions" />
+		</group>
+		<group name="audit" color="C4E0F9" >
+			<entity schema="logs" name="audit_logs" />
+		</group>
+		<script name="SQL_Editor" id="Editor_1274822" language="SQL" >
+			<string><![CDATA[
+
+
+
+
+ALTER TABLE lbstarter.roles ADD CONSTRAINT fk_created_by FOREIGN KEY ( created_by ) REFERENCES lbstarter.user_tenants( id );
+
+ALTER TABLE lbstarter.roles ADD CONSTRAINT fk_modified_by FOREIGN KEY ( modified_by ) REFERENCES lbstarter.user_tenants( id );
+
+
+ALTER TABLE lbstarter.tenants ADD CONSTRAINT fk_created_by FOREIGN KEY ( created_by ) REFERENCES lbstarter.user_tenants( id );
+
+ALTER TABLE lbstarter.tenants ADD CONSTRAINT fk_modified_by FOREIGN KEY ( modified_by ) REFERENCES lbstarter.user_tenants( id );
+
+
+ALTER TABLE lbstarter.users ADD CONSTRAINT fk_user_user_tenant_created_by FOREIGN KEY ( created_by ) REFERENCES lbstarter.user_tenants( id );
+
+ALTER TABLE lbstarter.users ADD CONSTRAINT fk_user_user_tenant_modified_by FOREIGN KEY ( modified_by ) REFERENCES lbstarter.user_tenants( id );
+
+
+]]></string>
+		</script>
+	</layout>
+</project>
