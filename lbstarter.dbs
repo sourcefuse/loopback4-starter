@@ -57,12 +57,6 @@
 			<index name="idx_tenants_modified_by" unique="NORMAL" >
 				<column name="modified_by" />
 			</index>
-			<fk name="fk_created_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="created_by" pk="id" />
-			</fk>
-			<fk name="fk_modified_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="modified_by" pk="id" />
-			</fk>
 		</table>
 		<table name="user_tenant_permissions" >
 			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
@@ -94,18 +88,8 @@
 			<index name="idx_user_tenant_permissions_user_tenant_id" unique="NORMAL" >
 				<column name="user_tenant_id" />
 			</index>
-			<fk name="fk_created_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="created_by" pk="id" />
-			</fk>
-			<fk name="fk_modified_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="modified_by" pk="id" />
-			</fk>
-			<fk name="fk_user_tenant_permissions" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="user_tenant_id" pk="id" />
-			</fk>
 		</table>
 		<table name="user_tenants" >
-			<comment><![CDATA[User Tenant Mapping table]]></comment>
 			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
 			<column name="user_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="tenant_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
@@ -186,12 +170,6 @@
 			<fk name="fk_users_tenants_default_tenant" to_schema="lbstarter" to_table="tenants" >
 				<fk_column name="default_tenant" pk="id" />
 			</fk>
-			<fk name="fk_user_user_tenant_created_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="created_by" pk="id" />
-			</fk>
-			<fk name="fk_user_user_tenant_modified_by" to_schema="lbstarter" to_table="user_tenants" >
-				<fk_column name="modified_by" pk="id" />
-			</fk>
 		</table>
 		<sequence name="roles_id_seq" start="1" />
 		<sequence name="roles_id_seq1" start="1" />
@@ -212,14 +190,11 @@
 		<trigger name="mdt_user_tenant_permissions" table="user_tenant_permissions" id="Trigger_3f13971" isSystem="false" >
 			<string><![CDATA[CREATE TRIGGER mdt_user_tenant_permissions BEFORE UPDATE ON lbstarter.user_tenant_permissions FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
 		</trigger>
-		<trigger name="mdt_user_tenants" table="user_tenants" id="Trigger_1aa5640" isSystem="false" >
+		<trigger name="mdt_user_tenants" table="user_tenants" id="Trigger_50de6bb" isSystem="false" >
 			<string><![CDATA[CREATE TRIGGER mdt_user_tenants BEFORE UPDATE ON lbstarter.user_tenants FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
 		</trigger>
 		<trigger name="mdt_users" table="users" id="Trigger_47ba329" isSystem="false" >
 			<string><![CDATA[CREATE TRIGGER mdt_users BEFORE UPDATE ON lbstarter.users FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
-		</trigger>
-		<trigger name="roles_audit_trigger" table="roles" id="Trigger_484ede6" isSystem="false" >
-			<string><![CDATA[CREATE TRIGGER roles_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.roles FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
 		</trigger>
 		<trigger name="tenants_audit_trigger" table="tenants" id="Trigger_2c99451" isSystem="false" >
 			<string><![CDATA[CREATE TRIGGER tenants_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.tenants FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
@@ -251,6 +226,7 @@
 			</index>
 		</table>
 		<sequence name="audit_logs_id_seq" start="1" />
+		<sequence name="audit_logs_id_seq1" start="1" />
 		<procedure name="audit_trigger" id="Procedure_133635" isSystem="false" params_known="y" >
 			<string><![CDATA[CREATE OR REPLACE FUNCTION logs.audit_trigger()
  RETURNS trigger
@@ -361,12 +337,11 @@ $function$
 	<layout name="Parsed Script Layout" id="Layout_1041beb" joined_routing="y" show_relation="no_text" >
 		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="80" />
 		<entity schema="lbstarter" name="roles" color="BED3F4" x="112" y="336" />
-		<entity schema="lbstarter" name="user_tenants" color="BED3F4" x="288" y="336" />
 		<entity schema="lbstarter" name="users" color="BED3F4" x="272" y="576" />
 		<entity schema="lbstarter" name="tenants" color="BED3F4" x="464" y="336" />
 		<entity schema="logs" name="audit_logs" color="3986C1" x="672" y="80" />
+		<entity schema="lbstarter" name="user_tenants" color="3986C1" x="320" y="336" />
 		<group name="user_tenants" color="ECF0F7" >
-			<entity schema="lbstarter" name="user_tenants" />
 			<entity schema="lbstarter" name="tenants" />
 			<entity schema="lbstarter" name="users" />
 			<entity schema="lbstarter" name="roles" />
