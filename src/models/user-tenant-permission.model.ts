@@ -1,25 +1,27 @@
-import {model, property} from '@loopback/repository';
+import {model, property, belongsTo} from '@loopback/repository';
 
 import {UserModifiableEntity} from './user-modifiable-entity.model';
+import {UserTenant} from './user-tenant.model';
+import {UserPermission} from 'loopback4-authorization';
 
 @model({
   name: 'user_tenant_permissions',
 })
-export class UserTenantPermission extends UserModifiableEntity {
+export class UserTenantPermission extends UserModifiableEntity
+  implements UserPermission<string> {
   @property({
     type: 'number',
     id: true,
   })
   id?: number;
 
-  @property({
-    type: 'number',
-    required: true,
-    name: 'user_tenant_id',
-    postgresql: {
-      column: 'user_tenant_id',
+  @belongsTo(
+    () => UserTenant,
+    {name: 'user_tenant_id'},
+    {
+      required: true,
     },
-  })
+  )
   userTenantId: number;
 
   @property({

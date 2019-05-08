@@ -5,12 +5,14 @@ export class BaseEntity extends SoftDeleteEntity {
   @property({
     type: 'date',
     default: () => new Date(),
+    name: 'created_on',
   })
-  created_on?: Date;
+  createdOn?: Date;
 
   @property({
     type: 'date',
     default: () => new Date(),
+    name: 'modified_on',
   })
-  modified_on?: Date;
+  modifiedOn?: Date;
 }

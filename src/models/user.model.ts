@@ -1,11 +1,13 @@
-import {model, property} from '@loopback/repository';
+import {belongsTo, model, property} from '@loopback/repository';
+import {IAuthUser} from 'loopback4-authentication';
 
+import {Tenant} from './tenant.model';
 import {UserModifiableEntity} from './user-modifiable-entity.model';
 
 @model({
   name: 'users',
 })
-export class User extends UserModifiableEntity {
+export class User extends UserModifiableEntity implements IAuthUser {
   @property({
     type: 'number',
     id: true,
@@ -61,14 +63,13 @@ export class User extends UserModifiableEntity {
   })
   password?: string;
 
-  @property({
-    type: 'number',
-    required: true,
-    name: 'default_tenant',
-    postgresql: {
-      column: 'default_tenant',
+  @belongsTo(
+    () => Tenant,
+    {name: 'default_tenant'},
+    {
+      required: true,
     },
-  })
+  )
   defaultTenant: number;
 
   @property({

@@ -23,14 +23,11 @@ export class Role extends BaseEntity {
     type: 'array',
     itemType: 'string',
   })
-  permissions?: string[];
+  permissions: string[] = [];
 
   @property({
     type: 'number',
     name: 'role_key',
-    postgresql: {
-      column: 'role_key',
-    },
   })
   roleKey: RoleType;
 

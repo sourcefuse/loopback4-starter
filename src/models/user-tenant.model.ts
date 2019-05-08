@@ -1,6 +1,9 @@
-import {model, property} from '@loopback/repository';
+import {model, property, belongsTo} from '@loopback/repository';
 
 import {BaseEntity} from './base-entity.model';
+import {User} from './user.model';
+import {Tenant} from './tenant.model';
+import {Role} from './role.model';
 
 @model({
   name: 'user_tenants',
@@ -12,34 +15,31 @@ export class UserTenant extends BaseEntity {
   })
   id?: number;
 
-  @property({
-    type: 'number',
-    required: true,
-    name: 'user_id',
-    postgresql: {
-      column: 'user_id',
+  @belongsTo(
+    () => User,
+    {name: 'user_id'},
+    {
+      required: true,
     },
-  })
+  )
   userId: number;
 
-  @property({
-    type: 'number',
-    required: true,
-    name: 'tenant_id',
-    postgresql: {
-      column: 'tenant_id',
+  @belongsTo(
+    () => Tenant,
+    {name: 'tenant_id'},
+    {
+      required: true,
     },
-  })
+  )
   tenantId: number;
 
-  @property({
-    type: 'number',
-    required: true,
-    name: 'role_id',
-    postgresql: {
-      column: 'role_id',
+  @belongsTo(
+    () => Role,
+    {name: 'role_id'},
+    {
+      required: true,
     },
-  })
+  )
   roleId: number;
 
   @property({

@@ -6,25 +6,31 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getFilterSchemaFor,
   getWhereSchemaFor,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
+import {authenticate, STRATEGY} from 'loopback4-authentication';
+import {authorize} from 'loopback4-authorization';
+
 import {User} from '../../models';
 import {UserRepository} from '../../repositories';
+import {PermissionKey} from '../auth/permission-key.enum';
 
 export class UserController {
   constructor(
     @repository(UserRepository)
-    public userRepository : UserRepository,
+    public userRepository: UserRepository,
   ) {}
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.CreateAnyUser, PermissionKey.CreateTenantUser])
   @post('/users', {
     responses: {
       '200': {
@@ -37,6 +43,12 @@ export class UserController {
     return await this.userRepository.create(user);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.ViewAnyUser,
+    PermissionKey.ViewOwnUser,
+    PermissionKey.ViewTenantUser,
+  ])
   @get('/users/count', {
     responses: {
       '200': {
@@ -51,6 +63,12 @@ export class UserController {
     return await this.userRepository.count(where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.ViewAnyUser,
+    PermissionKey.ViewOwnUser,
+    PermissionKey.ViewTenantUser,
+  ])
   @get('/users', {
     responses: {
       '200': {
@@ -69,6 +87,12 @@ export class UserController {
     return await this.userRepository.find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.UpdateAnyUser,
+    PermissionKey.UpdateOwnUser,
+    PermissionKey.UpdateTenantUser,
+  ])
   @patch('/users', {
     responses: {
       '200': {
@@ -84,6 +108,12 @@ export class UserController {
     return await this.userRepository.updateAll(user, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.ViewAnyUser,
+    PermissionKey.ViewOwnUser,
+    PermissionKey.ViewTenantUser,
+  ])
   @get('/users/{id}', {
     responses: {
       '200': {
@@ -96,6 +126,12 @@ export class UserController {
     return await this.userRepository.findById(id);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.UpdateAnyUser,
+    PermissionKey.UpdateOwnUser,
+    PermissionKey.UpdateTenantUser,
+  ])
   @patch('/users/{id}', {
     responses: {
       '204': {
@@ -110,6 +146,12 @@ export class UserController {
     await this.userRepository.updateById(id, user);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([
+    PermissionKey.UpdateAnyUser,
+    PermissionKey.UpdateOwnUser,
+    PermissionKey.UpdateTenantUser,
+  ])
   @put('/users/{id}', {
     responses: {
       '204': {
@@ -124,6 +166,8 @@ export class UserController {
     await this.userRepository.replaceById(id, user);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.DeleteAnyUser, PermissionKey.DeleteTenantUser])
   @del('/users/{id}', {
     responses: {
       '204': {

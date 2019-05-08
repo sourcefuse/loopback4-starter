@@ -6,25 +6,31 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getFilterSchemaFor,
   getWhereSchemaFor,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
+import {authenticate, STRATEGY} from 'loopback4-authentication';
+import {authorize} from 'loopback4-authorization';
+
 import {Role} from '../../models';
 import {RoleRepository} from '../../repositories';
+import {PermissionKey} from '../auth/permission-key.enum';
 
 export class RoleController {
   constructor(
     @repository(RoleRepository)
-    public roleRepository : RoleRepository,
+    public roleRepository: RoleRepository,
   ) {}
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.CreateRole])
   @post('/roles', {
     responses: {
       '200': {
@@ -37,6 +43,8 @@ export class RoleController {
     return await this.roleRepository.create(role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewRole])
   @get('/roles/count', {
     responses: {
       '200': {
@@ -51,6 +59,8 @@ export class RoleController {
     return await this.roleRepository.count(where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewRole])
   @get('/roles', {
     responses: {
       '200': {
@@ -69,6 +79,8 @@ export class RoleController {
     return await this.roleRepository.find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateRole])
   @patch('/roles', {
     responses: {
       '200': {
@@ -84,6 +96,8 @@ export class RoleController {
     return await this.roleRepository.updateAll(role, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewRole])
   @get('/roles/{id}', {
     responses: {
       '200': {
@@ -96,6 +110,8 @@ export class RoleController {
     return await this.roleRepository.findById(id);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateRole])
   @patch('/roles/{id}', {
     responses: {
       '204': {
@@ -110,6 +126,8 @@ export class RoleController {
     await this.roleRepository.updateById(id, role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateRole])
   @put('/roles/{id}', {
     responses: {
       '204': {
@@ -124,6 +142,8 @@ export class RoleController {
     await this.roleRepository.replaceById(id, role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.DeleteRole])
   @del('/roles/{id}', {
     responses: {
       '204': {

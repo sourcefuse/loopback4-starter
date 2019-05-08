@@ -18,13 +18,18 @@ import {
 } from '@loopback/rest';
 import {AuditLog} from '../../models';
 import {AuditLogRepository} from '../../repositories';
+import {authenticate, STRATEGY} from 'loopback4-authentication';
+import {authorize} from 'loopback4-authorization';
+import {PermissionKey} from '../auth/permission-key.enum';
 
 export class AuditLogController {
   constructor(
     @repository(AuditLogRepository)
-    public auditLogRepository : AuditLogRepository,
+    public auditLogRepository: AuditLogRepository,
   ) {}
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.CreateAudit])
   @post('/audit-logs', {
     responses: {
       '200': {
@@ -37,6 +42,8 @@ export class AuditLogController {
     return await this.auditLogRepository.create(auditLog);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewAudit])
   @get('/audit-logs/count', {
     responses: {
       '200': {
@@ -51,6 +58,8 @@ export class AuditLogController {
     return await this.auditLogRepository.count(where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewAudit])
   @get('/audit-logs', {
     responses: {
       '200': {
@@ -69,6 +78,8 @@ export class AuditLogController {
     return await this.auditLogRepository.find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateAudit])
   @patch('/audit-logs', {
     responses: {
       '200': {
@@ -84,6 +95,8 @@ export class AuditLogController {
     return await this.auditLogRepository.updateAll(auditLog, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewAudit])
   @get('/audit-logs/{id}', {
     responses: {
       '200': {
@@ -96,6 +109,8 @@ export class AuditLogController {
     return await this.auditLogRepository.findById(id);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateAudit])
   @patch('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -110,6 +125,8 @@ export class AuditLogController {
     await this.auditLogRepository.updateById(id, auditLog);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateAudit])
   @put('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -124,6 +141,8 @@ export class AuditLogController {
     await this.auditLogRepository.replaceById(id, auditLog);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.DeleteAudit])
   @del('/audit-logs/{id}', {
     responses: {
       '204': {

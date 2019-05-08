@@ -9,8 +9,19 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
+import {
+  AuthenticationBindings,
+  AuthenticationComponent,
+} from 'loopback4-authentication';
+import {AuthorizationComponent} from 'loopback4-authorization';
 import * as path from 'path';
 
+import {
+  BearerTokenVerifyProvider,
+  ClientPasswordVerifyProvider,
+  LocalPasswordVerifyProvider,
+  ResourceOwnerVerifyProvider,
+} from './modules/auth';
 import {MySequence} from './sequence';
 
 export class Loopback4StarterApplication extends BootMixin(
@@ -30,6 +41,25 @@ export class Loopback4StarterApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+
+    // Customize authentication verify handlers
+    this.bind(
+      AuthenticationBindings.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER,
+    ).toProvider(ClientPasswordVerifyProvider);
+    this.bind(
+      AuthenticationBindings.Passport.LOCAL_PASSWORD_VERIFIER,
+    ).toProvider(LocalPasswordVerifyProvider);
+    this.bind(AuthenticationBindings.Passport.BEARER_TOKEN_VERIFIER).toProvider(
+      BearerTokenVerifyProvider,
+    );
+    this.bind(
+      AuthenticationBindings.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER,
+    ).toProvider(ResourceOwnerVerifyProvider);
+    // Add authentication component
+    this.component(AuthenticationComponent);
+
+    // Add authorization component
+    this.component(AuthorizationComponent);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

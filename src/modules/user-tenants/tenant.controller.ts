@@ -6,25 +6,31 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getFilterSchemaFor,
   getWhereSchemaFor,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
+import {authenticate, STRATEGY} from 'loopback4-authentication';
+import {authorize} from 'loopback4-authorization';
+
 import {Tenant} from '../../models';
 import {TenantRepository} from '../../repositories';
+import {PermissionKey} from '../auth/permission-key.enum';
 
 export class TenantController {
   constructor(
     @repository(TenantRepository)
-    public tenantRepository : TenantRepository,
+    public tenantRepository: TenantRepository,
   ) {}
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.CreateTenant])
   @post('/tenants', {
     responses: {
       '200': {
@@ -37,6 +43,8 @@ export class TenantController {
     return await this.tenantRepository.create(tenant);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewTenant])
   @get('/tenants/count', {
     responses: {
       '200': {
@@ -51,6 +59,8 @@ export class TenantController {
     return await this.tenantRepository.count(where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewTenant])
   @get('/tenants', {
     responses: {
       '200': {
@@ -69,6 +79,8 @@ export class TenantController {
     return await this.tenantRepository.find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateTenant])
   @patch('/tenants', {
     responses: {
       '200': {
@@ -84,6 +96,8 @@ export class TenantController {
     return await this.tenantRepository.updateAll(tenant, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.ViewTenant])
   @get('/tenants/{id}', {
     responses: {
       '200': {
@@ -96,6 +110,8 @@ export class TenantController {
     return await this.tenantRepository.findById(id);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateTenant])
   @patch('/tenants/{id}', {
     responses: {
       '204': {
@@ -110,6 +126,8 @@ export class TenantController {
     await this.tenantRepository.updateById(id, tenant);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.UpdateTenant])
   @put('/tenants/{id}', {
     responses: {
       '204': {
@@ -124,6 +142,8 @@ export class TenantController {
     await this.tenantRepository.replaceById(id, tenant);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize([PermissionKey.DeleteTenant])
   @del('/tenants/{id}', {
     responses: {
       '204': {
