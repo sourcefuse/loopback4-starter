@@ -22,7 +22,7 @@ export class UserTenantPermission extends UserModifiableEntity
       required: true,
     },
   )
-  userTenantId: number;
+  user_tenant_id: number;
 
   @property({
     type: 'string',

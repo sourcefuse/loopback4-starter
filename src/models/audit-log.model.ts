@@ -15,9 +15,6 @@ export class AuditLog extends Entity {
     type: 'string',
     required: true,
     name: 'operation_name',
-    postgresql: {
-      column: 'operation_name',
-    },
   })
   operationName: string;
 
@@ -25,9 +22,6 @@ export class AuditLog extends Entity {
     type: 'date',
     required: true,
     name: 'operation_type',
-    postgresql: {
-      column: 'operation_time',
-    },
   })
   operationTime: string;
 
@@ -35,36 +29,24 @@ export class AuditLog extends Entity {
     type: 'string',
     required: true,
     name: 'table_name',
-    postgresql: {
-      column: 'table_name',
-    },
   })
   tableName: string;
 
   @property({
     type: 'string',
     name: 'log_type',
-    postgresql: {
-      column: 'log_type',
-    },
   })
   logType?: string;
 
   @property({
     type: 'string',
     name: 'entity_id',
-    postgresql: {
-      column: 'entity_id',
-    },
   })
   entityId?: string;
 
   @property({
     type: 'string',
     name: 'user_id',
-    postgresql: {
-      column: 'user_id',
-    },
   })
   userId?: string;
 

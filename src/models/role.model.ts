@@ -23,7 +23,7 @@ export class Role extends BaseEntity {
     type: 'array',
     itemType: 'string',
   })
-  permissions: string[] = [];
+  permissions: string[];
 
   @property({
     type: 'number',

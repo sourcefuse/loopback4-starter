@@ -10,7 +10,11 @@ CREATE TABLE lbstarter.auth_clients (
 	created_on           timestamptz DEFAULT current_timestamp NOT NULL ,
 	modified_on          timestamptz DEFAULT current_timestamp NOT NULL ,
 	deleted              bool DEFAULT false NOT NULL ,
-	user_ids             integer[]  NOT NULL ,
+	user_ids             integer[],
 	CONSTRAINT pk_auth_clients_id PRIMARY KEY ( id )
 );
 
+insert into lbstarter.auth_clients
+  (client_id, client_secret, secret)
+  values
+  ('webapp','saqw21!@', 'plmnkoqazxsw');

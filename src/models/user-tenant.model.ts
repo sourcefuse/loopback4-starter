@@ -1,9 +1,9 @@
-import {model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, model, property} from '@loopback/repository';
 
 import {BaseEntity} from './base-entity.model';
-import {User} from './user.model';
-import {Tenant} from './tenant.model';
 import {Role} from './role.model';
+import {Tenant} from './tenant.model';
+import {User} from './user.model';
 
 @model({
   name: 'user_tenants',
@@ -22,7 +22,7 @@ export class UserTenant extends BaseEntity {
       required: true,
     },
   )
-  userId: number;
+  user_id: number;
 
   @belongsTo(
     () => Tenant,
@@ -31,7 +31,7 @@ export class UserTenant extends BaseEntity {
       required: true,
     },
   )
-  tenantId: number;
+  tenant_id: number;
 
   @belongsTo(
     () => Role,
@@ -40,7 +40,7 @@ export class UserTenant extends BaseEntity {
       required: true,
     },
   )
-  roleId: number;
+  role_id: number;
 
   @property({
     type: 'string',

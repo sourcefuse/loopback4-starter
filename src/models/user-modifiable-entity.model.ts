@@ -5,8 +5,8 @@ import {UserTenant} from './user-tenant.model';
 
 export class UserModifiableEntity extends BaseEntity {
   @belongsTo(() => UserTenant, {name: 'created_by'})
-  createdBy?: number;
+  created_by?: number;
 
   @belongsTo(() => UserTenant, {name: 'modified_by'})
-  modifiedBy?: number;
+  modified_by?: number;
 }

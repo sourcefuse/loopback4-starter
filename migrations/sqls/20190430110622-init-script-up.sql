@@ -95,7 +95,7 @@ CREATE TABLE lbstarter.user_tenants (
 	created_on           timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL ,
 	modified_on          timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL ,
 	deleted              bool DEFAULT false NOT NULL ,
-	role_id              integer DEFAULT 5 NOT NULL ,
+	role_id              integer NOT NULL ,
 	status               varchar(50) DEFAULT 'active'::character varying NOT NULL ,
 	CONSTRAINT pk_user_tenant_id PRIMARY KEY ( id )
  );

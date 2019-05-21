@@ -68,12 +68,12 @@
     "loopback-connector": "^4.7.0",
     "loopback-connector-kv-redis": "^3.0.1",
     "loopback-connector-postgresql": "^3.6.1",
-    "loopback4-authentication": "file:../lb4-authentication",
-    "loopback4-authorization": "file:../lb4-authorization",
+    "loopback4-authentication": "^1.0.2",
+    "loopback4-authorization": "^1.0.2",
     "loopback4-soft-delete": "^1.0.0"
   },
   "devDependencies": {
-    "@loopback/build": "^1.5.0",
+    "@loopback/build": "^1.5.2",
     "@loopback/testlab": "^1.2.5",
     "@loopback/tslint-config": "^2.0.4",
     "@types/bcrypt": "^3.0.0",

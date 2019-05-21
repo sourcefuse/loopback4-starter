@@ -18,27 +18,18 @@ export class User extends UserModifiableEntity implements IAuthUser {
     type: 'string',
     required: true,
     name: 'first_name',
-    postgresql: {
-      column: 'first_name',
-    },
   })
   firstName: string;
 
   @property({
     type: 'string',
     name: 'last_name',
-    postgresql: {
-      column: 'last_name',
-    },
   })
   lastName: string;
 
   @property({
     type: 'string',
     name: 'middle_name',
-    postgresql: {
-      column: 'middle_name',
-    },
   })
   middleName?: string;
 
@@ -63,13 +54,10 @@ export class User extends UserModifiableEntity implements IAuthUser {
   })
   password?: string;
 
-  @belongsTo(
-    () => Tenant,
-    {name: 'default_tenant'},
-    {
-      required: true,
-    },
-  )
+  @property({
+    type: 'number',
+    name: 'default_tenant',
+  })
   defaultTenant: number;
 
   @property({

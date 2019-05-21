@@ -25,7 +25,7 @@
 			<column name="deleted" type="bool" jt="-7" mandatory="y" >
 				<defo>false</defo>
 			</column>
-			<column name="user_ids" type="integer[]" jt="2003" mandatory="y" />
+			<column name="user_ids" type="integer[]" length="10" decimal="0" jt="2003" />
 			<index name="pk_auth_clients_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -146,9 +146,7 @@
 			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
 				<defo>false</defo>
 			</column>
-			<column name="role_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
-				<defo>5</defo>
-			</column>
+			<column name="role_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="status" type="varchar" length="50" decimal="0" jt="12" mandatory="y" >
 				<defo>&#039;active&#039;::character varying</defo>
 			</column>
@@ -385,22 +383,26 @@ $function$
 		</procedure>
 	</schema>
 	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.2.2.jar" driver_desc="Standard" host="localhost" port="5432" instance="lbstarter" user="postgres" passwd="cG9zdGdyZXN0ZXN0" />
-	<layout name="Parsed Script Layout" id="Layout_1041beb" joined_routing="y" show_relation="no_text" >
-		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="80" />
-		<entity schema="lbstarter" name="roles" color="BED3F4" x="112" y="336" />
-		<entity schema="lbstarter" name="tenants" color="BED3F4" x="464" y="336" />
-		<entity schema="lbstarter" name="user_tenants" color="3986C1" x="320" y="336" />
-		<entity schema="lbstarter" name="users" color="BED3F4" x="272" y="576" />
-		<entity schema="lbstarter" name="auth_clients" color="C1D8EE" x="752" y="640" />
+	<layout name="Parsed Script Layout" id="Layout_1041beb" show_relation="no_text" >
+		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="288" />
+		<entity schema="lbstarter" name="roles" color="BED3F4" x="288" y="80" />
+		<entity schema="lbstarter" name="tenants" color="BED3F4" x="464" y="304" />
+		<entity schema="lbstarter" name="users" color="BED3F4" x="272" y="544" />
+		<entity schema="lbstarter" name="auth_clients" color="C1D8EE" x="672" y="592" />
 		<entity schema="logs" name="audit_logs" color="3986C1" x="672" y="80" />
+		<entity schema="lbstarter" name="user_tenants" color="3986C1" x="288" y="304" />
+		<group name="audit" color="C4E0F9" >
+			<entity schema="logs" name="audit_logs" />
+		</group>
+		<group name="Auth" color="C4E0F9" >
+			<entity schema="lbstarter" name="auth_clients" />
+		</group>
 		<group name="user_tenants" color="ECF0F7" >
 			<entity schema="lbstarter" name="tenants" />
 			<entity schema="lbstarter" name="users" />
 			<entity schema="lbstarter" name="roles" />
 			<entity schema="lbstarter" name="user_tenant_permissions" />
-		</group>
-		<group name="audit" color="C4E0F9" >
-			<entity schema="logs" name="audit_logs" />
+			<entity schema="lbstarter" name="user_tenants" />
 		</group>
 		<script name="SQL_Editor" id="Editor_1274822" language="SQL" >
 			<string><![CDATA[

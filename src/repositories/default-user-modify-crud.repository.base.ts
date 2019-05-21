@@ -27,8 +27,8 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.createdBy = currentUser.id;
-    entity.modifiedBy = currentUser.id;
+    entity.created_by = currentUser.id;
+    entity.modified_by = currentUser.id;
     return super.create(entity, options);
   }
 
@@ -38,8 +38,8 @@ export abstract class DefaultUserModifyCrudRepository<
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
     entities.forEach(entity => {
-      entity.createdBy = currentUser ? currentUser.id : 0;
-      entity.modifiedBy = currentUser ? currentUser.id : 0;
+      entity.created_by = currentUser ? currentUser.id : 0;
+      entity.modified_by = currentUser ? currentUser.id : 0;
     });
     return super.createAll(entities, options);
   }
@@ -49,7 +49,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.modifiedBy = currentUser.id;
+    entity.modified_by = currentUser.id;
     return super.save(entity, options);
   }
 
@@ -58,7 +58,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.modifiedBy = currentUser.id;
+    entity.modified_by = currentUser.id;
     return super.update(entity, options);
   }
 
@@ -71,7 +71,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modified_by = currentUser.id;
     return super.updateAll(data, where, options);
   }
 
@@ -84,7 +84,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modified_by = currentUser.id;
     return super.updateById(id, data, options);
   }
   async replaceById(
@@ -96,7 +96,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modified_by = currentUser.id;
     return super.replaceById(id, data, options);
   }
 }

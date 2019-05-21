@@ -75,21 +75,17 @@ export class LoginController {
   }> {
     if (!this.client || !this.user) {
       throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
-    } else if (!this.client.redirectUrl) {
-      throw new HttpErrors.UnprocessableEntity(
-        AuthErrorKeys.RedirectURLMissing,
-      );
-    } else if (!req.clientSecret) {
+    } else if (!req.client_secret) {
       throw new HttpErrors.BadRequest(AuthErrorKeys.ClientSecretMissing);
     }
     try {
       const codePayload: ClientAuthCode<User> = {
-        clientId: req.clientId,
+        clientId: req.client_id,
         userId: this.user.id,
       };
       const token = jwt.sign(codePayload, this.client.secret, {
         expiresIn: this.client.authCodeExpiration,
-        audience: req.clientId,
+        audience: req.client_id,
         subject: req.username,
         issuer: process.env.JWT_ISSUER,
       });
@@ -125,7 +121,7 @@ export class LoginController {
       throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
     } else if (!this.client.userIds || this.client.userIds.length === 0) {
       throw new HttpErrors.UnprocessableEntity(AuthErrorKeys.ClientUserMissing);
-    } else if (!req.clientSecret) {
+    } else if (!req.client_secret) {
       throw new HttpErrors.BadRequest(AuthErrorKeys.ClientSecretMissing);
     }
     try {
@@ -240,8 +236,8 @@ export class LoginController {
       }
       const userTenant = await this.userTenantRepo.findOne({
         where: {
-          userId: user.getId(),
-          tenantId: user.defaultTenant,
+          user_id: user.getId(),
+          tenant_id: user.defaultTenant,
         },
       });
       if (!userTenant) {
@@ -257,7 +253,7 @@ export class LoginController {
       const role = await this.userTenantRepo.role(userTenant.id);
       const utPerms = await this.utPermsRepo.find({
         where: {
-          userTenantId: userTenant.id,
+          user_tenant_id: userTenant.id,
         },
         fields: {
           permission: true,

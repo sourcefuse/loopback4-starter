@@ -6,16 +6,13 @@ export class LoginRequest extends Model {
     type: 'string',
     required: true,
   })
-  clientId: string;
+  client_id: string;
 
   @property({
     type: 'string',
     required: true,
-    json: {
-      name: 'client_secret',
-    },
   })
-  clientSecret: string;
+  client_secret: string;
 
   @property({type: 'string', required: true})
   username: string;

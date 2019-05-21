@@ -44,7 +44,7 @@ export class AuthClient extends BaseEntity implements IAuthClient {
     itemType: 'number',
     name: 'user_ids',
   })
-  userIds: number[] = [];
+  userIds: number[];
 
   @property({
     type: 'number',
