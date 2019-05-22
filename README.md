@@ -106,6 +106,7 @@ In this project, we are using [db-migrate](https://db-migrate.readthedocs.io/en/
 
 LoopBack4 also provides [auto migration](https://loopback.io/doc/en/lb4/Database-migrations.html) from models to DB but considering that its not guaranteed to be safe as mentioned [here](https://loopback.io/doc/en/lb4/Database-migrations.html#overview), we prefer to keep DB stuff outside of the ORM layer. This also helps in abstracting our models in codebase from DB tables. If you are good with LB4 way, please ignore below.
 
+Replace all occurences of 'lbstarter' with 'todolist' in ./migrations folder.
 Run the below command to setup the database schema and tables with initial seed data.
 
 ```sh
