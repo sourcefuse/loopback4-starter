@@ -20,11 +20,13 @@ In addition to that, it also provides you with some of the good to have items
   - [Clone the repository](#clone-the-repository)
   - [Install dependencies](#install-dependencies)
   - [Update app name](#update-app-name)
+  - [Update git origin](#update-git-origin)
   - [Setup database](#setup-database)
   - [Setup redis](#setup-redis)
   - [Configure environment](#configure-environment)
   - [Run DB migrations](#run-db-migrations)
   - [Start server](#start-server)
+  - [API Explorer](#api-explorer)
 - [Architecture overview](#architecture-overview)
   - [Database Model](#database-model)
     - [Key Notes](#key-notes)
@@ -68,6 +70,12 @@ Say the application you are developing is named 'To Do List'. Change as below.
 - src/\_\_tests\_\_/\*\* - Replace all refences of Loopback4StarterApplication with ToDoListApplication.
 - Update README.md with details of your application
 - Update CONTRIBUTING.md with details as per your application.
+
+#### Update git origin
+
+```sh
+git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+```
 
 #### Setup database
 
@@ -129,6 +137,12 @@ npm start
 ```
 
 In a browser, visit http://127.0.0.1:3000/ping
+
+#### API Explorer
+
+In a browser, visit http://localhost:3000. Click on explorer. You will see the API documentation.
+
+You can try out only the unsecured APIs here, like auth/login. The secure endpoints require bearer token as authorization header which is currently not possible to pass from this page. For that, you can use Postman.
 
 ### Architecture overview
 

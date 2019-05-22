@@ -13,7 +13,10 @@ import {
   AuthenticationBindings,
   AuthenticationComponent,
 } from 'loopback4-authentication';
-import {AuthorizationComponent} from 'loopback4-authorization';
+import {
+  AuthorizationComponent,
+  AuthorizationBindings,
+} from 'loopback4-authorization';
 import * as path from 'path';
 
 import {
@@ -36,7 +39,7 @@ export class Loopback4StarterApplication extends BootMixin(
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
-    // Customize @loopback/rest-explorer configuration here
+    // // Customize @loopback/rest-explorer configuration here
     this.bind(RestExplorerBindings.CONFIG).to({
       path: '/explorer',
     });
@@ -59,6 +62,9 @@ export class Loopback4StarterApplication extends BootMixin(
     this.component(AuthenticationComponent);
 
     // Add authorization component
+    this.bind(AuthorizationBindings.CONFIG).to({
+      allowAlwaysPaths: ['/explorer'],
+    });
     this.component(AuthorizationComponent);
 
     this.projectRoot = __dirname;

@@ -13,7 +13,7 @@ import {
 } from 'loopback4-authentication';
 import {
   authorize,
-  AuthorizatonBindings,
+  AuthorizationBindings,
   UserPermissionsFn,
 } from 'loopback4-authorization';
 
@@ -39,7 +39,7 @@ export class LoginController {
     private readonly client: AuthClient | undefined,
     @inject(AuthenticationBindings.CURRENT_USER)
     private readonly user: AuthUser | undefined,
-    @inject(AuthorizatonBindings.USER_PERMISSIONS)
+    @inject(AuthorizationBindings.USER_PERMISSIONS)
     private readonly getUserPermissions: UserPermissionsFn<string>,
     @repository(AuthClientRepository)
     public authClientRepository: AuthClientRepository,

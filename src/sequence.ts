@@ -12,7 +12,7 @@ import {
 } from '@loopback/rest';
 import {AuthenticateFn, AuthenticationBindings} from 'loopback4-authentication';
 import {
-  AuthorizatonBindings,
+  AuthorizationBindings,
   AuthorizeErrorKeys,
   AuthorizeFn,
 } from 'loopback4-authorization';
@@ -33,7 +33,7 @@ export class MySequence implements SequenceHandler {
     protected authenticateRequest: AuthenticateFn<AuthUser>,
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
     protected authenticateRequestClient: AuthenticateFn<AuthClient>,
-    @inject(AuthorizatonBindings.AUTHORIZE_ACTION)
+    @inject(AuthorizationBindings.AUTHORIZE_ACTION)
     protected checkAuthorisation: AuthorizeFn,
   ) {}
 
@@ -48,6 +48,7 @@ export class MySequence implements SequenceHandler {
       const authUser: AuthUser = await this.authenticateRequest(request);
       const isAccessAllowed: boolean = await this.checkAuthorisation(
         authUser && authUser.permissions,
+        request,
       );
       if (!isAccessAllowed) {
         throw new HttpErrors.Forbidden(AuthorizeErrorKeys.NotAllowedAccess);
