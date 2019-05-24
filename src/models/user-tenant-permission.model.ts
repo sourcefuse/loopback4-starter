@@ -17,12 +17,13 @@ export class UserTenantPermission extends UserModifiableEntity
 
   @belongsTo(
     () => UserTenant,
-    {name: 'user_tenant_id'},
+    {keyFrom: 'user_tenant_id', name: 'user_tenant_id'},
     {
+      name: 'user_tenant_id',
       required: true,
     },
   )
-  user_tenant_id: number;
+  userTenantId: number;
 
   @property({
     type: 'string',

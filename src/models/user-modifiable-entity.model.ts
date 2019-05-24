@@ -4,9 +4,21 @@ import {BaseEntity} from './base-entity.model';
 import {UserTenant} from './user-tenant.model';
 
 export class UserModifiableEntity extends BaseEntity {
-  @belongsTo(() => UserTenant, {name: 'created_by'})
-  created_by?: number;
+  @belongsTo(
+    () => UserTenant,
+    {keyFrom: 'created_by', name: 'created'},
+    {
+      name: 'created_by',
+    },
+  )
+  createdBy?: number;
 
-  @belongsTo(() => UserTenant, {name: 'modified_by'})
-  modified_by?: number;
+  @belongsTo(
+    () => UserTenant,
+    {keyFrom: 'modified_by', name: 'modified'},
+    {
+      name: 'modified_by',
+    },
+  )
+  modifiedBy?: number;
 }

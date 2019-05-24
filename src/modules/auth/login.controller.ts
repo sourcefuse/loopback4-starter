@@ -236,8 +236,8 @@ export class LoginController {
       }
       const userTenant = await this.userTenantRepo.findOne({
         where: {
-          user_id: user.getId(),
-          tenant_id: user.defaultTenant,
+          userId: user.getId(),
+          tenantId: user.defaultTenant,
         },
       });
       if (!userTenant) {
@@ -253,7 +253,7 @@ export class LoginController {
       const role = await this.userTenantRepo.role(userTenant.id);
       const utPerms = await this.utPermsRepo.find({
         where: {
-          user_tenant_id: userTenant.id,
+          userTenantId: userTenant.id,
         },
         fields: {
           permission: true,
