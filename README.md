@@ -2,6 +2,8 @@
 
 [![LoopBack](<https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png>)](http://loopback.io/)
 
+[![Dependencies Status](https://img.shields.io/david/sourcefuse/loopback4-starter.svg?style=flat-square&label=Dependencies)](https://github.com/sourcefuse/loopback4-starter)
+
 This is a LoopBack 4 starter application to get you upto speed with initial setup of a very standard REST API application with LoopBack 4 as framework. It provides you with all the core requisite features for most of the applications over and above framework features, viz.,
 
 1. Users
