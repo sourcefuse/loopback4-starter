@@ -1,5 +1,6 @@
-import {Model, model, property} from '@loopback/repository';
-import {User, Tenant} from '../../../models';
+import {model, property} from '@loopback/repository';
+
+import {User} from '../../../models';
 
 @model()
 export class AuthUser extends User {
@@ -14,12 +15,6 @@ export class AuthUser extends User {
     required: true,
   })
   role: string;
-
-  @property({
-    type: Tenant,
-    required: true,
-  })
-  tenant: Tenant;
 
   constructor(data?: Partial<AuthUser>) {
     super(data);

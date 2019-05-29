@@ -18,6 +18,8 @@ In addition to that, it also provides you with some of the good to have items
 1. Multi-tenant architecture system
 2. Soft deletes
 
+**NOTE: For a non multi-tenant starter, please refer to the branch [single_tenant](https://github.com/sourcefuse/loopback4-starter/tree/single_tenant).**
+
 ## Table of Contents
 
 - [How to use](#how-to-use)

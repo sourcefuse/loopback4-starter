@@ -24,8 +24,7 @@ import {
   AuthClientRepository,
   RefreshTokenRepository,
   UserRepository,
-  UserTenantPermissionRepository,
-  UserTenantRepository,
+  UserPermissionRepository,
 } from '../../repositories';
 import {AuthRefreshTokenRequest, AuthTokenRequest, LoginRequest} from './';
 import {AuthenticateErrorKeys} from './error-keys';
@@ -45,10 +44,8 @@ export class LoginController {
     public authClientRepository: AuthClientRepository,
     @repository(UserRepository)
     public userRepo: UserRepository,
-    @repository(UserTenantRepository)
-    public userTenantRepo: UserTenantRepository,
-    @repository(UserTenantPermissionRepository)
-    public utPermsRepo: UserTenantPermissionRepository,
+    @repository(UserPermissionRepository)
+    public utPermsRepo: UserPermissionRepository,
     @repository(RefreshTokenRepository)
     public refreshTokenRepo: RefreshTokenRepository,
   ) {}
@@ -234,26 +231,16 @@ export class LoginController {
           AuthenticateErrorKeys.UserDoesNotExist,
         );
       }
-      const userTenant = await this.userTenantRepo.findOne({
-        where: {
-          userId: user.getId(),
-          tenantId: user.defaultTenant,
-        },
-      });
-      if (!userTenant) {
-        throw new HttpErrors.Unauthorized(
-          AuthenticateErrorKeys.UserDoesNotExist,
-        );
-      } else if (userTenant.status !== 'active') {
+
+      if (user.status !== 'active') {
         throw new HttpErrors.Unauthorized(AuthenticateErrorKeys.UserInactive);
       }
       // Create user DTO for payload to JWT
       const authUser: AuthUser = new AuthUser(user);
-      authUser.tenant = await this.userTenantRepo.tenant(userTenant.id);
-      const role = await this.userTenantRepo.role(userTenant.id);
+      const role = await this.userRepo.role(user.id);
       const utPerms = await this.utPermsRepo.find({
         where: {
-          userTenantId: userTenant.id,
+          userId: user.id,
         },
         fields: {
           permission: true,

@@ -1,13 +1,13 @@
 import {belongsTo, model, property} from '@loopback/repository';
 import {IAuthUser} from 'loopback4-authentication';
 
-import {Tenant} from './tenant.model';
-import {UserModifiableEntity} from './user-modifiable-entity.model';
+import {BaseEntity} from './base-entity.model';
+import {Role} from './role.model';
 
 @model({
   name: 'users',
 })
-export class User extends UserModifiableEntity implements IAuthUser {
+export class User extends BaseEntity implements IAuthUser {
   @property({
     type: 'number',
     id: true,
@@ -55,19 +55,40 @@ export class User extends UserModifiableEntity implements IAuthUser {
   password?: string;
 
   @property({
-    type: 'number',
-    name: 'default_tenant',
-  })
-  defaultTenant: number;
-
-  @property({
     type: 'date',
     name: 'last_login',
     postgresql: {
       column: 'last_login',
     },
   })
-  lastLogin?: string;
+  lastLogin?: Date;
+
+  @belongsTo(
+    () => Role,
+    {keyFrom: 'role_id', name: 'role_id'},
+    {
+      name: 'role_id',
+      required: true,
+    },
+  )
+  roleId: number;
+
+  @property({
+    type: 'string',
+    required: true,
+    default: 'active',
+  })
+  status: string;
+
+  @property({
+    name: 'created_by',
+  })
+  createdBy?: number;
+
+  @property({
+    name: 'modified_by',
+  })
+  modifiedBy?: number;
 
   constructor(data?: Partial<User>) {
     super(data);

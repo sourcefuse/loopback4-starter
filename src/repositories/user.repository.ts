@@ -1,26 +1,36 @@
 import {Getter, inject} from '@loopback/core';
-import {DataObject} from '@loopback/repository';
+import {DataObject, BelongsToAccessor, repository} from '@loopback/repository';
 import {Options} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
 import * as bcrypt from 'bcrypt';
 import {AuthenticationBindings, AuthErrorKeys} from 'loopback4-authentication';
 
 import {PgdbDataSource} from '../datasources';
-import {User} from '../models';
+import {User, Role} from '../models';
 import {AuthUser} from '../modules/auth';
 import {AuthenticateErrorKeys} from '../modules/auth/error-keys';
 import {DefaultUserModifyCrudRepository} from './default-user-modify-crud.repository.base';
+import {RoleRepository} from './role.repository';
 
 export class UserRepository extends DefaultUserModifyCrudRepository<
   User,
   typeof User.prototype.id
 > {
+  public readonly role: BelongsToAccessor<Role, typeof User.prototype.id>;
+
   constructor(
     @inject('datasources.pgdb') dataSource: PgdbDataSource,
     @inject.getter(AuthenticationBindings.CURRENT_USER)
     protected readonly getCurrentUser: Getter<AuthUser | undefined>,
+    @repository.getter(RoleRepository)
+    roleRepositoryGetter: Getter<RoleRepository>,
   ) {
     super(User, dataSource, getCurrentUser);
+
+    this.role = this._createBelongsToAccessorFor(
+      'role_id',
+      roleRepositoryGetter,
+    );
   }
 
   private readonly saltRounds = 10;

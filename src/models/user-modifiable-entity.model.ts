@@ -1,11 +1,11 @@
 import {belongsTo} from '@loopback/repository';
 
 import {BaseEntity} from './base-entity.model';
-import {UserTenant} from './user-tenant.model';
+import {User} from './user.model';
 
 export class UserModifiableEntity extends BaseEntity {
   @belongsTo(
-    () => UserTenant,
+    () => User,
     {keyFrom: 'created_by', name: 'created'},
     {
       name: 'created_by',
@@ -14,7 +14,7 @@ export class UserModifiableEntity extends BaseEntity {
   createdBy?: number;
 
   @belongsTo(
-    () => UserTenant,
+    () => User,
     {keyFrom: 'modified_by', name: 'modified'},
     {
       name: 'modified_by',

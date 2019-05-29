@@ -4,7 +4,6 @@ import {VerifyFunction} from 'loopback4-authentication';
 
 import {UserRepository} from '../../../repositories';
 import {AuthUser} from '../models/auth-user.model';
-import {Tenant} from '../../../models';
 
 export class LocalPasswordVerifyProvider
   implements Provider<VerifyFunction.LocalPasswordFn> {
@@ -19,7 +18,6 @@ export class LocalPasswordVerifyProvider
         await this.userRepository.verifyPassword(username, password),
       );
       user.permissions = [];
-      user.tenant = new Tenant({id: user.defaultTenant});
       return user;
     };
   }
