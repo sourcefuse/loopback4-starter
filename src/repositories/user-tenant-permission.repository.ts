@@ -14,7 +14,7 @@ export class UserTenantPermissionRepository extends DefaultUserModifyCrudReposit
 > {
   public readonly userTenant: BelongsToAccessor<
     UserTenant,
-    typeof UserTenant.prototype.id
+    typeof UserTenantPermission.prototype.id
   >;
   constructor(
     @inject('datasources.pgdb') dataSource: PgdbDataSource,
