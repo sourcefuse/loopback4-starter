@@ -54,7 +54,8 @@ export class TenantController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Tenant)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(Tenant))
+    where?: Where<Tenant>,
   ): Promise<Count> {
     return await this.tenantRepository.count(where);
   }
@@ -74,7 +75,8 @@ export class TenantController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Tenant)) filter?: Filter,
+    @param.query.object('filter', getFilterSchemaFor(Tenant))
+    filter?: Filter<Tenant>,
   ): Promise<Tenant[]> {
     return await this.tenantRepository.find(filter);
   }
@@ -91,7 +93,8 @@ export class TenantController {
   })
   async updateAll(
     @requestBody() tenant: Tenant,
-    @param.query.object('where', getWhereSchemaFor(Tenant)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(Tenant))
+    where?: Where<Tenant>,
   ): Promise<Count> {
     return await this.tenantRepository.updateAll(tenant, where);
   }

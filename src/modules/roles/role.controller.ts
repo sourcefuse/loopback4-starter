@@ -54,7 +54,7 @@ export class RoleController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Role)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
     return await this.roleRepository.count(where);
   }
@@ -74,7 +74,8 @@ export class RoleController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Role)) filter?: Filter,
+    @param.query.object('filter', getFilterSchemaFor(Role))
+    filter?: Filter<Role>,
   ): Promise<Role[]> {
     return await this.roleRepository.find(filter);
   }
@@ -91,7 +92,7 @@ export class RoleController {
   })
   async updateAll(
     @requestBody() role: Role,
-    @param.query.object('where', getWhereSchemaFor(Role)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
     return await this.roleRepository.updateAll(role, where);
   }

@@ -73,7 +73,8 @@ export class AuditLogController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(AuditLog)) filter?: Filter,
+    @param.query.object('filter', getFilterSchemaFor(AuditLog))
+    filter?: Filter<AuditLog>,
   ): Promise<AuditLog[]> {
     return await this.auditLogRepository.find(filter);
   }
