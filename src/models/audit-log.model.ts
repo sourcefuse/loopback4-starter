@@ -2,7 +2,6 @@ import {Entity, model, property} from '@loopback/repository';
 
 @model({
   name: 'audit_logs',
-  settings: {strict: false},
 })
 export class AuditLog extends Entity {
   @property({
@@ -21,7 +20,7 @@ export class AuditLog extends Entity {
   @property({
     type: 'date',
     required: true,
-    name: 'operation_type',
+    name: 'operation_time',
   })
   operationTime: string;
 
@@ -59,11 +58,6 @@ export class AuditLog extends Entity {
     type: 'object',
   })
   after?: object;
-
-  // Define well-known properties here
-
-  // Indexer property to allow additional data
-  [prop: string]: any;
 
   constructor(data?: Partial<AuditLog>) {
     super(data);
