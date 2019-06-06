@@ -53,7 +53,8 @@ export class AuditLogController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(AuditLog)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(AuditLog))
+    where?: Where<AuditLog>,
   ): Promise<Count> {
     return await this.auditLogRepository.count(where);
   }
@@ -91,7 +92,8 @@ export class AuditLogController {
   })
   async updateAll(
     @requestBody() auditLog: AuditLog,
-    @param.query.object('where', getWhereSchemaFor(AuditLog)) where?: Where,
+    @param.query.object('where', getWhereSchemaFor(AuditLog))
+    where?: Where<AuditLog>,
   ): Promise<Count> {
     return await this.auditLogRepository.updateAll(auditLog, where);
   }

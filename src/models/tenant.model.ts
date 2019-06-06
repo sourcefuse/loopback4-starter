@@ -1,6 +1,7 @@
 import {model, property} from '@loopback/repository';
 
 import {UserModifiableEntity} from './user-modifiable-entity.model';
+import {TenantType} from '../modules/user-tenants/tenant-type.enum';
 
 @model({
   name: 'tenants',
@@ -17,6 +18,12 @@ export class Tenant extends UserModifiableEntity {
     required: true,
   })
   name: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  type: TenantType;
 
   @property({
     type: 'string',
