@@ -1,7 +1,6 @@
-import {belongsTo, model, property} from '@loopback/repository';
+import {model, property} from '@loopback/repository';
 import {IAuthUser} from 'loopback4-authentication';
 
-import {Tenant} from './tenant.model';
 import {UserModifiableEntity} from './user-modifiable-entity.model';
 
 @model({
