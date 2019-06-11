@@ -20,7 +20,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] Test A
 - [ ] Test B
 
-## Checklist:
+## Checklist :
 
 - [ ] Performed a self-review of my own code
 - [ ] npm test passes on your machine
