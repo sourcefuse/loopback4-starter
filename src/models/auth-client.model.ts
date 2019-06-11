@@ -1,11 +1,8 @@
-import {model, property} from '@loopback/repository';
-import {IAuthClient} from 'loopback4-authentication';
+import { model, property } from '@loopback/repository';
+import { IAuthClient } from 'loopback4-authentication';
+import { BaseEntity } from '.';
 
-import {BaseEntity} from './base-entity.model';
-
-@model({
-  name: 'auth_clients',
-})
+@model({ settings: {} })
 export class AuthClient extends BaseEntity implements IAuthClient {
   @property({
     type: 'number',
@@ -71,3 +68,9 @@ export class AuthClient extends BaseEntity implements IAuthClient {
     super(data);
   }
 }
+
+export interface AuthClientRelations {
+  // describe navigational properties here
+}
+
+export type AuthClientWithRelations = AuthClient & AuthClientRelations;

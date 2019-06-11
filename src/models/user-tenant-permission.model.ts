@@ -1,14 +1,12 @@
-import {model, property, belongsTo} from '@loopback/repository';
-
-import {UserModifiableEntity} from './user-modifiable-entity.model';
-import {UserTenant} from './user-tenant.model';
-import {UserPermission} from 'loopback4-authorization';
+import { model, property, belongsTo } from '@loopback/repository';
+import { UserModifiableEntity } from '.';
+import { UserTenant } from './user-tenant.model';
+import { UserPermission } from 'loopback4-authorization';
 
 @model({
   name: 'user_tenant_permissions',
 })
-export class UserTenantPermission extends UserModifiableEntity
-  implements UserPermission<string> {
+export class UserTenantPermission extends UserModifiableEntity implements UserPermission<string> {
   @property({
     type: 'number',
     id: true,
@@ -17,7 +15,7 @@ export class UserTenantPermission extends UserModifiableEntity
 
   @belongsTo(
     () => UserTenant,
-    {keyFrom: 'user_tenant_id', name: 'user_tenant_id'},
+    { keyFrom: 'user_tenant_id', name: 'user_tenant_id' },
     {
       name: 'user_tenant_id',
       required: true,
@@ -38,7 +36,14 @@ export class UserTenantPermission extends UserModifiableEntity
   })
   allowed: boolean;
 
+
   constructor(data?: Partial<UserTenantPermission>) {
     super(data);
   }
 }
+
+export interface UserTenantPermissionRelations {
+  // describe navigational properties here
+}
+
+export type UserTenantPermissionWithRelations = UserTenantPermission & UserTenantPermissionRelations;

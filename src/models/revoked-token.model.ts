@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {}})
 export class RevokedToken extends Entity {
   @property({
     type: 'string',
@@ -9,7 +9,14 @@ export class RevokedToken extends Entity {
   })
   token: string;
 
+
   constructor(data?: Partial<RevokedToken>) {
     super(data);
   }
 }
+
+export interface RevokedTokenRelations {
+  // describe navigational properties here
+}
+
+export type RevokedTokenWithRelations = RevokedToken & RevokedTokenRelations;

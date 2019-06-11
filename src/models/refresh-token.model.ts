@@ -1,6 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
-@model()
+@model({ settings: {} })
 export class RefreshToken extends Entity {
   @property({
     type: 'string',
@@ -20,7 +20,14 @@ export class RefreshToken extends Entity {
   })
   username: string;
 
+
   constructor(data?: Partial<RefreshToken>) {
     super(data);
   }
 }
+
+export interface RefreshTokenRelations {
+  // describe navigational properties here
+}
+
+export type RefreshTokenWithRelations = RefreshToken & RefreshTokenRelations;

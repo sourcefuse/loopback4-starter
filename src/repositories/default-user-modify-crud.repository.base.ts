@@ -1,17 +1,18 @@
-import {SoftCrudRepository} from 'loopback4-soft-delete';
+import { SoftCrudRepository } from 'loopback4-soft-delete';
 
-import {UserModifiableEntity} from '../models';
-import {DataObject, Getter, Where, Count} from '@loopback/repository';
-import {Options} from 'loopback-datasource-juggler';
-import {PgdbDataSource} from '../datasources';
-import {AuthUser} from '../modules/auth';
-import {HttpErrors} from '@loopback/rest';
-import {AuthErrorKeys} from 'loopback4-authentication';
+import { UserModifiableEntity } from '../models';
+import { DataObject, Getter, Where, Count } from '@loopback/repository';
+import { Options } from 'loopback-datasource-juggler';
+import { PgdbDataSource } from '../datasources';
+import { AuthUser } from '../modules/auth';
+import { HttpErrors } from '@loopback/rest';
+import { AuthErrorKeys } from 'loopback4-authentication';
 
 export abstract class DefaultUserModifyCrudRepository<
   T extends UserModifiableEntity,
-  ID
-> extends SoftCrudRepository<T, ID> {
+  ID,
+  Relations extends object = {}
+  > extends SoftCrudRepository<T, ID, Relations> {
   constructor(
     entityClass: typeof UserModifiableEntity & {
       prototype: T;

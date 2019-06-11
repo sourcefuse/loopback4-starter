@@ -1,7 +1,6 @@
-import {model, property} from '@loopback/repository';
-import {IAuthUser} from 'loopback4-authentication';
-
-import {UserModifiableEntity} from './user-modifiable-entity.model';
+import { model, property } from '@loopback/repository';
+import { UserModifiableEntity } from './user-modifiable-entity.model';
+import { IAuthUser } from 'loopback4-authentication';
 
 @model({
   name: 'users',
@@ -68,7 +67,14 @@ export class User extends UserModifiableEntity implements IAuthUser {
   })
   lastLogin?: string;
 
+
   constructor(data?: Partial<User>) {
     super(data);
   }
 }
+
+export interface UserRelations {
+  // describe navigational properties here
+}
+
+export type UserWithRelations = User & UserRelations;
