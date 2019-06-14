@@ -1,12 +1,12 @@
-import { BootMixin } from '@loopback/boot';
-import { ApplicationConfig } from '@loopback/core';
-import { RepositoryMixin } from '@loopback/repository';
-import { RestApplication } from '@loopback/rest';
+import {BootMixin} from '@loopback/boot';
+import {ApplicationConfig} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
-import { ServiceMixin } from '@loopback/service-proxy';
+import {ServiceMixin} from '@loopback/service-proxy';
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
 import {
@@ -25,7 +25,7 @@ import {
   LocalPasswordVerifyProvider,
   ResourceOwnerVerifyProvider,
 } from './modules/auth';
-import { MySequence } from './sequence';
+import {MySequence} from './sequence';
 
 export class Loopback4StarterApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
