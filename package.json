@@ -1,6 +1,6 @@
 {
   "name": "loopback4-starter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A boilerplate starter code base for setting up a loopback4 API for a multi-tenant application",
   "keywords": [
     "loopback-application",
