@@ -1,9 +1,8 @@
-import {belongsTo, model, property} from '@loopback/repository';
-
+import {model, property, belongsTo} from '@loopback/repository';
 import {BaseEntity} from './base-entity.model';
-import {Role} from './role.model';
-import {Tenant} from './tenant.model';
-import {User} from './user.model';
+import {Tenant, TenantWithRelations} from './tenant.model';
+import {User, UserWithRelations} from './user.model';
+import {Role, RoleWithRelations} from './role.model';
 
 @model({
   name: 'user_tenants',
@@ -56,3 +55,11 @@ export class UserTenant extends BaseEntity {
     super(data);
   }
 }
+
+export interface UserTenantRelations {
+  user: UserWithRelations;
+  tenant: TenantWithRelations;
+  role: RoleWithRelations;
+}
+
+export type UserTenantWithRelations = UserTenant & UserTenantRelations;

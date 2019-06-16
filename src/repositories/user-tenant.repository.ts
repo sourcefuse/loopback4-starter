@@ -2,7 +2,7 @@ import {Getter, inject} from '@loopback/core';
 import {BelongsToAccessor, repository} from '@loopback/repository';
 
 import {PgdbDataSource} from '../datasources';
-import {Role, Tenant, User, UserTenant} from '../models';
+import {Role, Tenant, User, UserTenant, UserTenantRelations} from '../models';
 import {DefaultSoftCrudRepository} from './default-soft-crud.repository.base';
 import {RoleRepository} from './role.repository';
 import {TenantRepository} from './tenant.repository';
@@ -10,7 +10,8 @@ import {UserRepository} from './user.repository';
 
 export class UserTenantRepository extends DefaultSoftCrudRepository<
   UserTenant,
-  typeof UserTenant.prototype.id
+  typeof UserTenant.prototype.id,
+  UserTenantRelations
 > {
   public readonly tenant: BelongsToAccessor<
     Tenant,
@@ -31,17 +32,17 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
   ) {
     super(UserTenant, dataSource);
 
-    this.tenant = this._createBelongsToAccessorFor(
+    this.tenant = this.createBelongsToAccessorFor(
       'tenant_id',
       tenantRepositoryGetter,
     );
 
-    this.user = this._createBelongsToAccessorFor(
+    this.user = this.createBelongsToAccessorFor(
       'user_id',
       userRepositoryGetter,
     );
 
-    this.role = this._createBelongsToAccessorFor(
+    this.role = this.createBelongsToAccessorFor(
       'role_id',
       roleRepositoryGetter,
     );

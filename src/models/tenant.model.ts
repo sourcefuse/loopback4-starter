@@ -76,3 +76,9 @@ export class Tenant extends UserModifiableEntity {
     super(data);
   }
 }
+
+export interface TenantRelations {
+  // describe navigational properties here
+}
+
+export type TenantWithRelations = Tenant;
