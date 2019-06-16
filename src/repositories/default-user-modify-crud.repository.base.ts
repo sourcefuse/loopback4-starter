@@ -10,8 +10,9 @@ import {AuthErrorKeys} from 'loopback4-authentication';
 
 export abstract class DefaultUserModifyCrudRepository<
   T extends UserModifiableEntity,
-  ID
-> extends SoftCrudRepository<T, ID> {
+  ID,
+  Relations extends object = {}
+> extends SoftCrudRepository<T, ID, Relations> {
   constructor(
     entityClass: typeof UserModifiableEntity & {
       prototype: T;

@@ -3,6 +3,8 @@
 [![LoopBack](<https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png>)](http://loopback.io/)
 
 [![Dependencies Status](https://img.shields.io/david/sourcefuse/loopback4-starter.svg?style=flat-square&label=Dependencies)](https://github.com/sourcefuse/loopback4-starter)
+[![Loopback Core Version](https://img.shields.io/github/package-json/dependency-version/sourcefuse/loopback4-starter/@loopback/core.svg?style=flat-square)](https://github.com/strongloop/loopback-next)
+[![License](https://img.shields.io/github/license/sourcefuse/loopback4-starter.svg?color=blue&label=License&style=flat-square)](https://github.com/sourcefuse/loopback4-starter/blob/master/LICENSE)
 
 This is a LoopBack 4 starter application to get you upto speed with initial setup of a very standard REST API application with LoopBack 4 as framework. It provides you with all the core requisite features for most of the applications over and above framework features, viz.,
 
@@ -22,29 +24,29 @@ In addition to that, it also provides you with some of the good to have items
 
 ## Table of Contents
 
-- [How to use](#how-to-use)
-  - [Clone the repository](#clone-the-repository)
-  - [Install dependencies](#install-dependencies)
-  - [Update app name](#update-app-name)
-  - [Update git origin](#update-git-origin)
-  - [Setup database](#setup-database)
-  - [Setup redis](#setup-redis)
-  - [Configure environment](#configure-environment)
-  - [Run DB migrations](#run-db-migrations)
-  - [Start server](#start-server)
-  - [API Explorer](#api-explorer)
-- [Architecture overview](#architecture-overview)
-  - [Database Model](#database-model)
-    - [Key Notes](#key-notes)
-    - [Multi-tenant system](#multi-tenant-system)
-  - [Authentication](#authentication)
-  - [Authorization](#authorization)
-  - [Soft Delete](#soft-delete)
-  - [Audit Logs](#audit-logs)
-- [Feedback](#feedback)
-- [Contributing](#contributing)
-- [Code of conduct](#code-of-conduct)
-- [License](#license)
+- [How to use](#How-to-use)
+  - [Clone the repository](#Clone-the-repository)
+  - [Install dependencies](#Install-dependencies)
+  - [Update app name](#Update-app-name)
+  - [Update git origin](#Update-git-origin)
+  - [Setup database](#Setup-database)
+  - [Setup redis](#Setup-redis)
+  - [Configure environment](#Configure-environment)
+  - [Run DB migrations](#Run-DB-migrations)
+  - [Start server](#Start-server)
+  - [API Explorer](#API-Explorer)
+- [Architecture overview](#Architecture-overview)
+  - [Database Model](#Database-Model)
+    - [Key Notes](#Key-Notes)
+    - [Multi-tenant system](#Multi-tenant-system)
+  - [Authentication](#Authentication)
+  - [Authorization](#Authorization)
+  - [Soft Delete](#Soft-Delete)
+  - [Audit Logs](#Audit-Logs)
+- [Feedback](#Feedback)
+- [Contributing](#Contributing)
+- [Code of conduct](#Code-of-conduct)
+- [License](#License)
 
 ### How to use
 

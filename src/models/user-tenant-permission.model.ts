@@ -1,7 +1,7 @@
 import {model, property, belongsTo} from '@loopback/repository';
 
 import {UserModifiableEntity} from './user-modifiable-entity.model';
-import {UserTenant} from './user-tenant.model';
+import {UserTenant, UserTenantWithRelations} from './user-tenant.model';
 import {UserPermission} from 'loopback4-authorization';
 
 @model({
@@ -42,3 +42,10 @@ export class UserTenantPermission extends UserModifiableEntity
     super(data);
   }
 }
+
+export interface UserTenantPermissionRelations {
+  userTenant: UserTenantWithRelations;
+}
+
+export type UserTenantPermissionWithRelations = UserTenantPermission &
+  UserTenantPermissionRelations;

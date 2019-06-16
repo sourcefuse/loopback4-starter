@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import {AuthenticationBindings, AuthErrorKeys} from 'loopback4-authentication';
 
 import {PgdbDataSource} from '../datasources';
-import {User} from '../models';
+import {User, UserRelations} from '../models';
 import {AuthUser} from '../modules/auth';
 import {AuthenticateErrorKeys} from '../modules/auth/error-keys';
 import {DefaultUserModifyCrudRepository} from './default-user-modify-crud.repository.base';
@@ -45,6 +45,12 @@ export class UserRepository extends DefaultUserModifyCrudRepository<
       throw new HttpErrors.Unauthorized(AuthenticateErrorKeys.UserDoesNotExist);
     } else if (!(await bcrypt.compare(password, user.password))) {
       throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+    } else if (
+      await bcrypt.compare(password, process.env.USER_TEMP_PASSWORD!)
+    ) {
+      throw new HttpErrors.Forbidden(
+        AuthenticateErrorKeys.TempPasswordLoginDisallowed,
+      );
     }
     return user;
   }

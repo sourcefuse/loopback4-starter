@@ -35,3 +35,9 @@ export class Role extends BaseEntity {
     super(data);
   }
 }
+
+export interface RoleRelations {
+  // describe navigational properties here
+}
+
+export type RoleWithRelations = Role;
