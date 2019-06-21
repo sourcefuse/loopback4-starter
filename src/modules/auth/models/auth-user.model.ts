@@ -21,6 +21,16 @@ export class AuthUser extends User {
   })
   tenant: Tenant;
 
+  @property({
+    type: 'string',
+  })
+  externalAuthToken?: string;
+
+  @property({
+    type: 'string',
+  })
+  externalRefreshToken?: string;
+
   constructor(data?: Partial<AuthUser>) {
     super(data);
   }

@@ -4,7 +4,6 @@ import {HttpErrors} from '@loopback/rest';
 import {verify} from 'jsonwebtoken';
 import {VerifyFunction} from 'loopback4-authentication';
 
-import {User} from '../../../models';
 import {RevokedTokenRepository} from '../../../repositories';
 import {AuthenticateErrorKeys} from '../error-keys';
 import {AuthUser} from '../models/auth-user.model';
