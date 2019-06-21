@@ -174,7 +174,7 @@ You can try out only the unsecured APIs here, like auth/login. The secure endpoi
 - Every role has associated permissions.
 - Each user may have some extra permissions (allowed or denied) per tenant over and above its role, user_tenant_permissions table takes care of it.
 
-For detailed description of database tables and columns, please open lbstarter-schema.html from root folder in your browser.
+For detailed description of database tables and columns, please open lbstarter.dbs in [DbSchema](https://www.dbschema.com/) tool.
 
 #### Authentication
 

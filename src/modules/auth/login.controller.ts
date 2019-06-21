@@ -1,6 +1,15 @@
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
-import {HttpErrors, post, requestBody} from '@loopback/rest';
+import {
+  get,
+  HttpErrors,
+  param,
+  post,
+  Request,
+  requestBody,
+  Response,
+  RestBindings,
+} from '@loopback/rest';
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
 import {
@@ -12,10 +21,11 @@ import {
   STRATEGY,
 } from 'loopback4-authentication';
 import {
-  authorize,
   AuthorizationBindings,
+  authorize,
   UserPermissionsFn,
 } from 'loopback4-authorization';
+import {URLSearchParams} from 'url';
 
 import {CONTENT_TYPE} from '../../controllers/content-type.constant';
 import {STATUS_CODE} from '../../controllers/status-codes.enum';
@@ -29,8 +39,8 @@ import {
 } from '../../repositories';
 import {AuthRefreshTokenRequest, AuthTokenRequest, LoginRequest} from './';
 import {AuthenticateErrorKeys} from './error-keys';
-import {TokenResponse} from './models/token-response.dto';
 import {AuthUser} from './models/auth-user.model';
+import {TokenResponse} from './models/token-response.dto';
 
 export class LoginController {
   // sonarignore_start
@@ -216,6 +226,114 @@ export class LoginController {
       {clientId: refreshPayload.clientId, userId: refreshPayload.userId},
       authClient,
     );
+  }
+
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
+  @authenticate(
+    STRATEGY.GOOGLE_OAUTH2,
+    {
+      accessType: 'offline',
+      scope: ['profile', 'email'],
+      authorizationURL: process.env.GOOGLE_AUTH_URL,
+      callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+      tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
+    },
+    (req: Request) => {
+      return {
+        accessType: 'offline',
+        state: Object.keys(req.query)
+          .map(key => key + '=' + req.query[key])
+          .join('&'),
+      };
+    },
+  )
+  @authorize(['*'])
+  @get('/auth/google', {
+    responses: {
+      [STATUS_CODE.OK]: {
+        description: 'Token Response',
+        content: {
+          [CONTENT_TYPE.JSON]: {
+            schema: {'x-ts-type': TokenResponse},
+          },
+        },
+      },
+    },
+  })
+  async loginViaGoogle(
+    @param.query.string('client_id')
+    clientId?: string,
+    @param.query.string('client_secret')
+    clientSecret?: string,
+  ): Promise<void> {}
+
+  @authenticate(
+    STRATEGY.GOOGLE_OAUTH2,
+    {
+      accessType: 'offline',
+      scope: ['profile', 'email'],
+      authorizationURL: process.env.GOOGLE_AUTH_URL,
+      callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+      tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
+    },
+    (req: Request) => {
+      return {
+        accessType: 'offline',
+        state: Object.keys(req.query)
+          .map(key => `${key}=${req.query[key]}`)
+          .join('&'),
+      };
+    },
+  )
+  @authorize(['*'])
+  @get('/auth/google-auth-redirect', {
+    responses: {
+      [STATUS_CODE.OK]: {
+        description: 'Token Response',
+        content: {
+          [CONTENT_TYPE.JSON]: {
+            schema: {'x-ts-type': TokenResponse},
+          },
+        },
+      },
+    },
+  })
+  async googleCallback(
+    @param.query.string('code') code: string,
+    @param.query.string('state') state: string,
+    @inject(RestBindings.Http.RESPONSE) response: Response,
+  ): Promise<void> {
+    const clientId = new URLSearchParams(state).get('client_id');
+    if (!clientId || !this.user) {
+      throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
+    }
+    const client = await this.authClientRepository.findOne({
+      where: {
+        clientId: clientId,
+      },
+    });
+    if (!client || !client.redirectUrl) {
+      throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
+    }
+    try {
+      const codePayload: ClientAuthCode<User> = {
+        clientId,
+        user: this.user,
+      };
+      const token = jwt.sign(codePayload, client.secret, {
+        expiresIn: client.authCodeExpiration,
+        audience: clientId,
+        subject: this.user.username,
+        issuer: process.env.JWT_ISSUER,
+      });
+      response.redirect(`${client.redirectUrl}?code=${token}`);
+    } catch (error) {
+      throw new HttpErrors.InternalServerError(AuthErrorKeys.UnknownError);
+    }
   }
 
   private async createJWT(

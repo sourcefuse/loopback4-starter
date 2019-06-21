@@ -9,19 +9,17 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
+import {AuthenticationComponent, Strategies} from 'loopback4-authentication';
 import {
-  AuthenticationBindings,
-  AuthenticationComponent,
-} from 'loopback4-authentication';
-import {
-  AuthorizationComponent,
   AuthorizationBindings,
+  AuthorizationComponent,
 } from 'loopback4-authorization';
 import * as path from 'path';
 
 import {
   BearerTokenVerifyProvider,
   ClientPasswordVerifyProvider,
+  GoogleOauth2VerifyProvider,
   LocalPasswordVerifyProvider,
   ResourceOwnerVerifyProvider,
 } from './modules/auth';
@@ -48,18 +46,21 @@ export class Loopback4StarterApplication extends BootMixin(
     // Add authentication component
     this.component(AuthenticationComponent);
     // Customize authentication verify handlers
-    this.bind(
-      AuthenticationBindings.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER,
-    ).toProvider(ClientPasswordVerifyProvider);
-    this.bind(
-      AuthenticationBindings.Passport.LOCAL_PASSWORD_VERIFIER,
-    ).toProvider(LocalPasswordVerifyProvider);
-    this.bind(AuthenticationBindings.Passport.BEARER_TOKEN_VERIFIER).toProvider(
+    this.bind(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER).toProvider(
+      ClientPasswordVerifyProvider,
+    );
+    this.bind(Strategies.Passport.LOCAL_PASSWORD_VERIFIER).toProvider(
+      LocalPasswordVerifyProvider,
+    );
+    this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
       BearerTokenVerifyProvider,
     );
-    this.bind(
-      AuthenticationBindings.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER,
-    ).toProvider(ResourceOwnerVerifyProvider);
+    this.bind(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER).toProvider(
+      ResourceOwnerVerifyProvider,
+    );
+    this.bind(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER).toProvider(
+      GoogleOauth2VerifyProvider,
+    );
 
     // Add authorization component
     this.bind(AuthorizationBindings.CONFIG).to({
