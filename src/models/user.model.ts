@@ -1,11 +1,11 @@
-import {model, property, hasOne} from '@loopback/repository';
-import {UserModifiableEntity} from './user-modifiable-entity.model';
+import {hasOne, model, property} from '@loopback/repository';
 import {IAuthUser} from 'loopback4-authentication';
+
 import {
   UserCredentials,
-  UserCredentialsRelations,
   UserCredentialsWithRelations,
 } from './user-credentials.model';
+import {UserModifiableEntity} from './user-modifiable-entity.model';
 
 @model({
   name: 'users',

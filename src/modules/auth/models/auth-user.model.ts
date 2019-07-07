@@ -1,5 +1,6 @@
-import {Model, model, property} from '@loopback/repository';
-import {User, Tenant} from '../../../models';
+import {model, property} from '@loopback/repository';
+
+import {Tenant, User} from '../../../models';
 
 @model()
 export class AuthUser extends User {

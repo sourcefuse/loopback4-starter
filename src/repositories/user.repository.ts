@@ -53,7 +53,7 @@ export class UserRepository extends DefaultUserModifyCrudRepository<
         authProvider: 'internal',
         password: password,
       });
-      this.credentials(user.id).create(creds);
+      await this.credentials(user.id).create(creds);
     } catch (err) {
       throw new HttpErrors.UnprocessableEntity('Error while hashing password');
     }

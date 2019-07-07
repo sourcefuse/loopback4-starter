@@ -184,6 +184,7 @@ export class LoginController {
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.CodeExpired);
+        // eslint-disable-next-line no-prototype-builtins
       } else if (HttpErrors.HttpError.prototype.isPrototypeOf(error)) {
         throw error;
       } else {
@@ -399,6 +400,7 @@ export class LoginController {
       );
       return new TokenResponse({accessToken, refreshToken});
     } catch (error) {
+      // eslint-disable-next-line no-prototype-builtins
       if (HttpErrors.HttpError.prototype.isPrototypeOf(error)) {
         throw error;
       } else {

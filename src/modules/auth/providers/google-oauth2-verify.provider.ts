@@ -20,7 +20,8 @@ export class GoogleOauth2VerifyProvider
     return async (accessToken, refreshToken, profile) => {
       const user = await this.userRepository.findOne({
         where: {
-          email: profile._json.email,
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          email: (profile as any)._json.email,
         },
       });
       if (!user) {
