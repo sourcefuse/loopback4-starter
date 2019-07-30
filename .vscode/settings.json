@@ -5,6 +5,11 @@
   "editor.trimAutoWhitespace": true,
   "editor.formatOnSave": true,
 
+  "sonarlint.connectedMode.project": {
+    "serverId": "sf_sonar",
+    "projectKey": "sourcefuse_loopback4-starter"
+  },
+
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -16,6 +21,5 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
 
-  "tslint.ignoreDefinitionFiles": true,
   "typescript.tsdk": "./node_modules/typescript/lib"
 }

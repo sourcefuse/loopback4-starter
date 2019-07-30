@@ -11,9 +11,9 @@
     "node": ">=8.9"
   },
   "scripts": {
-    "build": "lb-tsc --copy-resources",
+    "build": "npm run clean && lb-tsc --copy-resources",
     "build:watch": "lb-tsc --watch",
-    "clean": "lb-clean dist",
+    "clean": "lb-clean dist *.tsbuildinfo",
     "lint": "npm run prettier:check && npm run eslint",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
     "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
@@ -21,7 +21,7 @@
     "prettier:fix": "npm run prettier:cli -- --write",
     "eslint": "lb-eslint --report-unused-disable-directives .",
     "eslint:fix": "npm run eslint -- --fix",
-    "pretest": "npm run clean && npm run build",
+    "pretest": "npm run build",
     "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
@@ -63,7 +63,7 @@
     "dotenv": "^8.0.0",
     "dotenv-extended": "^2.4.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "loopback-connector": "^4.8.0",
     "loopback-connector-kv-redis": "^3.0.1",
     "loopback-connector-postgresql": "^3.7.0",
@@ -72,7 +72,7 @@
     "loopback4-soft-delete": "^1.2.0"
   },
   "devDependencies": {
-    "@loopback/build": "^2.0.3",
+    "@loopback/build": "^2.0.5",
     "@loopback/testlab": "^1.6.3",
     "@loopback/tslint-config": "^2.1.0",
     "@types/bcrypt": "^3.0.0",
