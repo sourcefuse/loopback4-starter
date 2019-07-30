@@ -2,6 +2,7 @@ import {Loopback4StarterApplication} from './application';
 
 export async function migrate(args: string[]) {
   const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';
+  debugger;
   console.log('Migrating schemas (%s existing schema)', existingSchema);
 
   const app = new Loopback4StarterApplication();
