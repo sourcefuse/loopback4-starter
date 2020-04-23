@@ -7,6 +7,7 @@ import {DefaultSoftCrudRepository} from './default-soft-crud.repository.base';
 import {RoleRepository} from './role.repository';
 import {TenantRepository} from './tenant.repository';
 import {UserRepository} from './user.repository';
+import {HttpErrors} from '@loopback/rest';
 
 export class UserTenantRepository extends DefaultSoftCrudRepository<
   UserTenant,
@@ -29,6 +30,8 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
     userRepositoryGetter: Getter<UserRepository>,
     @repository.getter(RoleRepository)
     roleRepositoryGetter: Getter<RoleRepository>,
+    @repository(RoleRepository)
+    public roleRepo: RoleRepository,
   ) {
     super(UserTenant, dataSource);
 
@@ -46,5 +49,27 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
       'role_id',
       roleRepositoryGetter,
     );
+  }
+
+  async create(user: User): Promise<UserTenant> {
+    if (!user.id || !user.defaultTenant) {
+      throw new HttpErrors.UnprocessableEntity(
+        'User Id or Default Tenant Id is missing in the request parameters',
+      );
+    }
+    const userTenant: UserTenant = new UserTenant();
+    userTenant.userId = user.id;
+    userTenant.tenantId = user.defaultTenant;
+    const role = await this.roleRepo.findOne({
+      where: {
+        name: process.env.DEFAULT_ROLE,
+      },
+    });
+    if (role && role.id) {
+      userTenant.roleId = role.id;
+    } else {
+      throw new HttpErrors.InternalServerError('Failed to set default role.');
+    }
+    return await super.create(userTenant);
   }
 }

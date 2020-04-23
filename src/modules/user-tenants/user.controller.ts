@@ -15,18 +15,21 @@ import {
   post,
   put,
   requestBody,
+  HttpErrors,
 } from '@loopback/rest';
 import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {authorize} from 'loopback4-authorization';
 
 import {User} from '../../models';
-import {UserRepository} from '../../repositories';
+import {UserRepository, UserTenantRepository} from '../../repositories';
 import {PermissionKey} from '../auth/permission-key.enum';
 
 export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(UserTenantRepository)
+    public userTenantRepo: UserTenantRepository,
   ) {}
 
   @authenticate(STRATEGY.BEARER)
@@ -40,7 +43,15 @@ export class UserController {
     },
   })
   async create(@requestBody() user: User): Promise<User> {
-    return await this.userRepository.create(user);
+    if (!user.id || !user.defaultTenant) {
+      throw new HttpErrors.UnprocessableEntity(
+        'User Id or Default Tenant Id is missing in the request parameters',
+      );
+    }
+    const response = await this.userRepository.create(user);
+    await this.userTenantRepo.create(user);
+
+    return response;
   }
 
   @authenticate(STRATEGY.BEARER)
