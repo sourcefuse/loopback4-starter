@@ -114,6 +114,20 @@ describe('Login Controller', () => {
     expect(response.body).to.have.properties(['accessToken', 'refreshToken']);
   });
 
+  it('should return user details', async () => {
+    const reqData = {
+      client_id: 'web',
+      client_secret: 'test',
+      username: 'test_user',
+      password: process.env.USER_TEMP_PASSWORD,
+    };
+
+    const reqForCode = await client
+      .post(`/auth/login-token`)
+      .send(reqData)
+      .expect(200);
+  });
+
   it('should return true on logout', async () => {
     const authLoginResponse = await authLogin();
     const authTokenResponse = await authToken(authLoginResponse.body.code);
@@ -227,6 +241,7 @@ describe('Login Controller', () => {
       refreshTokenExpiration: 86400,
       authCodeExpiration: 180,
       secret: 'poiuytrewq',
+      userIds: [1]
     });
 
     await tenantRepository.create({
