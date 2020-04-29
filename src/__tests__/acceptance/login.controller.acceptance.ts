@@ -241,7 +241,7 @@ describe('Login Controller', () => {
       refreshTokenExpiration: 86400,
       authCodeExpiration: 180,
       secret: 'poiuytrewq',
-      userIds: [1]
+      userIds: [1],
     });
 
     await tenantRepository.create({
@@ -250,6 +250,11 @@ describe('Login Controller', () => {
       type: TenantType.APPLICATION,
     });
 
-    await userTenantRepository.create(user);
+    await userTenantRepository.create({
+      id: 1,
+      userId: 1,
+      tenantId: 1,
+      roleId: 1,
+    });
   }
 });
