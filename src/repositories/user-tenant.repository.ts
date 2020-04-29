@@ -51,29 +51,4 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
       roleRepositoryGetter,
     );
   }
-
-  async create(
-    entity: DataObject<User>,
-    options?: Options,
-  ): Promise<UserTenant> {
-    if (!entity.id || !entity.defaultTenant) {
-      throw new HttpErrors.UnprocessableEntity(
-        'User Id or Default Tenant Id is missing in the request parameters',
-      );
-    }
-    const userTenant: UserTenant = new UserTenant();
-    userTenant.userId = entity.id;
-    userTenant.tenantId = entity.defaultTenant;
-    const role = await this.roleRepo.findOne({
-      where: {
-        name: process.env.DEFAULT_ROLE,
-      },
-    });
-    if (role && role.id) {
-      userTenant.roleId = role.id;
-    } else {
-      throw new HttpErrors.InternalServerError('Failed to set default role.');
-    }
-    return await super.create(userTenant);
-  }
 }
