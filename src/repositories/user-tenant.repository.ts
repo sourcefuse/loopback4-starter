@@ -68,7 +68,7 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
     if (role && role.id) {
       userTenant.roleId = role.id;
     } else {
-      throw new HttpErrors.InternalServerError('Failed to set default role.');
+      throw new HttpErrors.UnprocessableEntity('Failed to set default role.');
     }
     return await super.create(userTenant);
   }
