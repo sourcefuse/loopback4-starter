@@ -69,7 +69,8 @@
     "loopback-connector-postgresql": "^3.7.0",
     "loopback4-authentication": "^2.1.1",
     "loopback4-authorization": "^2.3.2",
-    "loopback4-soft-delete": "^1.2.0"
+    "loopback4-soft-delete": "^1.2.0",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
     "@loopback/build": "^2.0.5",
