@@ -1,5 +1,5 @@
 import {Getter, inject} from '@loopback/core';
-import {BelongsToAccessor, repository} from '@loopback/repository';
+import {BelongsToAccessor, repository, DataObject} from '@loopback/repository';
 
 import {PgdbDataSource} from '../datasources';
 import {Role, Tenant, User, UserTenant, UserTenantRelations} from '../models';
@@ -8,6 +8,7 @@ import {RoleRepository} from './role.repository';
 import {TenantRepository} from './tenant.repository';
 import {UserRepository} from './user.repository';
 import {HttpErrors} from '@loopback/rest';
+import {Options} from '@loopback/repository/src/common-types';
 
 export class UserTenantRepository extends DefaultSoftCrudRepository<
   UserTenant,
@@ -49,27 +50,5 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
       'role_id',
       roleRepositoryGetter,
     );
-  }
-
-  async create(user: User): Promise<UserTenant> {
-    if (!user.id || !user.defaultTenant) {
-      throw new HttpErrors.UnprocessableEntity(
-        'User Id or Default Tenant Id is missing in the request parameters',
-      );
-    }
-    const userTenant: UserTenant = new UserTenant();
-    userTenant.userId = user.id;
-    userTenant.tenantId = user.defaultTenant;
-    const role = await this.roleRepo.findOne({
-      where: {
-        name: process.env.DEFAULT_ROLE,
-      },
-    });
-    if (role && role.id) {
-      userTenant.roleId = role.id;
-    } else {
-      throw new HttpErrors.InternalServerError('Failed to set default role.');
-    }
-    return await super.create(userTenant);
   }
 }

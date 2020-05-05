@@ -20,8 +20,12 @@ import {
 import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {authorize} from 'loopback4-authorization';
 
-import {User} from '../../models';
-import {UserRepository, UserTenantRepository} from '../../repositories';
+import {User, UserTenant} from '../../models';
+import {
+  UserRepository,
+  UserTenantRepository,
+  RoleRepository,
+} from '../../repositories';
 import {PermissionKey} from '../auth/permission-key.enum';
 
 export class UserController {
@@ -30,6 +34,8 @@ export class UserController {
     public userRepository: UserRepository,
     @repository(UserTenantRepository)
     public userTenantRepo: UserTenantRepository,
+    @repository(RoleRepository)
+    public roleRepo: RoleRepository,
   ) {}
 
   @authenticate(STRATEGY.BEARER)
@@ -48,10 +54,10 @@ export class UserController {
         'User Id or Default Tenant Id is missing in the request parameters',
       );
     }
-    const response = await this.userRepository.create(user);
-    await this.userTenantRepo.create(user);
-
-    return response;
+    const userResponse = await this.userRepository.create(user);
+    const userTenant: UserTenant = await this.getUserTenantObjFromUser(user);
+    await this.userTenantRepo.create(userTenant);
+    return userResponse;
   }
 
   @authenticate(STRATEGY.BEARER)
@@ -189,5 +195,27 @@ export class UserController {
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.userRepository.deleteById(id);
+  }
+
+  private async getUserTenantObjFromUser(user: User) {
+    if (!user.id || !user.defaultTenant) {
+      throw new HttpErrors.UnprocessableEntity(
+        'User Id or Default Tenant Id is missing in the request parameters',
+      );
+    }
+    let userTenant: UserTenant = new UserTenant();
+    userTenant.userId = user.id;
+    userTenant.tenantId = user.defaultTenant;
+    const role = await this.roleRepo.findOne({
+      where: {
+        name: process.env.DEFAULT_ROLE,
+      },
+    });
+    if (role && role.id) {
+      userTenant.roleId = role.id;
+    } else {
+      throw new HttpErrors.InternalServerError('Failed to set default role.');
+    }
+    return userTenant;
   }
 }
