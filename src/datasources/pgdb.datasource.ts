@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import * as config from './pgdb.datasource.json';
+import * as config from './pgdb.datasource.config.json';
 
 export class PgdbDataSource extends juggler.DataSource {
   static dataSourceName = 'pgdb';

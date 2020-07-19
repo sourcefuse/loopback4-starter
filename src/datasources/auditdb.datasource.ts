@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import * as config from './auditdb.datasource.json';
+import * as config from './auditdb.datasource.config.json';
 
 export class AuditdbDataSource extends juggler.DataSource {
   static dataSourceName = 'auditdb';

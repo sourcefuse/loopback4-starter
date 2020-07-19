@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import * as config from './redis.datasource.json';
+import * as config from './redis.datasource.config.json';
 
 export class RedisDataSource extends juggler.DataSource {
   static dataSourceName = 'redis';
