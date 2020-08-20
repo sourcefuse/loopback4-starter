@@ -57,7 +57,7 @@
     "@loopback/rest": "^1.16.3",
     "@loopback/rest-explorer": "^1.2.5",
     "@loopback/service-proxy": "^1.2.3",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "db-migrate": "^0.11.11",
     "db-migrate-pg": "^1.2.2",
     "dotenv": "^8.0.0",
