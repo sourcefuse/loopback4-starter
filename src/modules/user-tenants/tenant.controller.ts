@@ -30,7 +30,7 @@ export class TenantController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateTenant])
+  @authorize({permissions: [PermissionKey.CreateTenant]})
   @post('/tenants', {
     responses: {
       '200': {
@@ -44,7 +44,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewTenant])
+  @authorize({permissions: [PermissionKey.ViewTenant]})
   @get('/tenants/count', {
     responses: {
       '200': {
@@ -61,7 +61,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewTenant])
+  @authorize({permissions: [PermissionKey.ViewTenant]})
   @get('/tenants', {
     responses: {
       '200': {
@@ -82,7 +82,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateTenant])
+  @authorize({permissions: [PermissionKey.UpdateTenant]})
   @patch('/tenants', {
     responses: {
       '200': {
@@ -100,7 +100,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewTenant])
+  @authorize({permissions: [PermissionKey.ViewTenant]})
   @get('/tenants/{id}', {
     responses: {
       '200': {
@@ -114,7 +114,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateTenant])
+  @authorize({permissions: [PermissionKey.UpdateTenant]})
   @patch('/tenants/{id}', {
     responses: {
       '204': {
@@ -130,7 +130,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateTenant])
+  @authorize({permissions: [PermissionKey.UpdateTenant]})
   @put('/tenants/{id}', {
     responses: {
       '204': {
@@ -146,7 +146,7 @@ export class TenantController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteTenant])
+  @authorize({permissions: [PermissionKey.DeleteTenant]})
   @del('/tenants/{id}', {
     responses: {
       '204': {

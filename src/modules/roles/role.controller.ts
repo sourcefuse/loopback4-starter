@@ -30,7 +30,7 @@ export class RoleController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateRole])
+  @authorize({permissions: [PermissionKey.CreateRole]})
   @post('/roles', {
     responses: {
       '200': {
@@ -44,7 +44,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles/count', {
     responses: {
       '200': {
@@ -60,7 +60,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles', {
     responses: {
       '200': {
@@ -81,7 +81,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @patch('/roles', {
     responses: {
       '200': {
@@ -98,7 +98,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles/{id}', {
     responses: {
       '200': {
@@ -112,7 +112,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @patch('/roles/{id}', {
     responses: {
       '204': {
@@ -128,7 +128,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @put('/roles/{id}', {
     responses: {
       '204': {
@@ -144,7 +144,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteRole])
+  @authorize({permissions: [PermissionKey.DeleteRole]})
   @del('/roles/{id}', {
     responses: {
       '204': {
