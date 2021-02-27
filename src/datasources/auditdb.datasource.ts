@@ -7,7 +7,7 @@ export class AuditdbDataSource extends juggler.DataSource {
 
   constructor(
     @inject('datasources.config.auditdb', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = {...config},
   ) {
     // Override data source config from environment variables
     Object.assign(dsConfig, {

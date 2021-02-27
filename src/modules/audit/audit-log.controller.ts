@@ -29,7 +29,7 @@ export class AuditLogController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateAudit])
+  @authorize({permissions:[PermissionKey.CreateAudit]})
   @post('/audit-logs', {
     responses: {
       '200': {
@@ -43,7 +43,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions:[PermissionKey.ViewAudit]})
   @get('/audit-logs/count', {
     responses: {
       '200': {
@@ -60,7 +60,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions:[PermissionKey.ViewAudit]})
   @get('/audit-logs', {
     responses: {
       '200': {
@@ -81,7 +81,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions:[PermissionKey.UpdateAudit]})
   @patch('/audit-logs', {
     responses: {
       '200': {
@@ -99,7 +99,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions:[PermissionKey.ViewAudit]})
   @get('/audit-logs/{id}', {
     responses: {
       '200': {
@@ -113,7 +113,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions:[PermissionKey.UpdateAudit]})
   @patch('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -129,7 +129,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions:[PermissionKey.UpdateAudit]})
   @put('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -145,7 +145,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteAudit])
+  @authorize({permissions:[PermissionKey.DeleteAudit]})
   @del('/audit-logs/{id}', {
     responses: {
       '204': {

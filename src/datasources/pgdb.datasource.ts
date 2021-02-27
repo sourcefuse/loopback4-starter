@@ -7,7 +7,7 @@ export class PgdbDataSource extends juggler.DataSource {
 
   constructor(
     @inject('datasources.config.pgdb', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = {...config},
   ) {
     // Override data source config from environment variables
     Object.assign(dsConfig, {

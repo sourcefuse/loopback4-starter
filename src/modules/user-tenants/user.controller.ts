@@ -33,7 +33,7 @@ export class UserController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateAnyUser, PermissionKey.CreateTenantUser])
+  @authorize({permissions:[PermissionKey.CreateAnyUser, PermissionKey.CreateTenantUser]})
   @post('/users', {
     responses: {
       '200': {
@@ -55,11 +55,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.ViewAnyUser,
     PermissionKey.ViewOwnUser,
     PermissionKey.ViewTenantUser,
-  ])
+  ]})
   @get('/users/count', {
     responses: {
       '200': {
@@ -75,11 +75,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.ViewAnyUser,
     PermissionKey.ViewOwnUser,
     PermissionKey.ViewTenantUser,
-  ])
+  ]})
   @get('/users', {
     responses: {
       '200': {
@@ -100,11 +100,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.UpdateAnyUser,
     PermissionKey.UpdateOwnUser,
     PermissionKey.UpdateTenantUser,
-  ])
+  ]})
   @patch('/users', {
     responses: {
       '200': {
@@ -121,11 +121,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.ViewAnyUser,
     PermissionKey.ViewOwnUser,
     PermissionKey.ViewTenantUser,
-  ])
+  ]})
   @get('/users/{id}', {
     responses: {
       '200': {
@@ -139,11 +139,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.UpdateAnyUser,
     PermissionKey.UpdateOwnUser,
     PermissionKey.UpdateTenantUser,
-  ])
+  ]})
   @patch('/users/{id}', {
     responses: {
       '204': {
@@ -159,11 +159,11 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
+  @authorize({permissions:[
     PermissionKey.UpdateAnyUser,
     PermissionKey.UpdateOwnUser,
     PermissionKey.UpdateTenantUser,
-  ])
+  ]})
   @put('/users/{id}', {
     responses: {
       '204': {
@@ -179,7 +179,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteAnyUser, PermissionKey.DeleteTenantUser])
+  @authorize({permissions:[PermissionKey.DeleteAnyUser, PermissionKey.DeleteTenantUser]})
   @del('/users/{id}', {
     responses: {
       '204': {

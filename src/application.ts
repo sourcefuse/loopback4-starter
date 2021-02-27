@@ -29,6 +29,11 @@ export class Loopback4StarterApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
+    dotenv.config();
+    dotenvExt.load({
+      schema: '.env.example',
+      errorOnMissing: false,
+    });
     super(options);
 
     // Set up the custom sequence
@@ -83,11 +88,5 @@ export class Loopback4StarterApplication extends BootMixin(
         nested: true,
       },
     };
-
-    dotenv.config();
-    dotenvExt.load({
-      schema: '.env.example',
-      errorOnMissing: false,
-    });
   }
 }
