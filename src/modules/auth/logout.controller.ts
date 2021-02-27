@@ -14,7 +14,7 @@ export class LogoutController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @post('/logout')
   async logout(@param.header.string('Authorization') auth: string) {
     try {

@@ -7,7 +7,7 @@ export class RedisDataSource extends juggler.DataSource {
 
   constructor(
     @inject('datasources.config.redis', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = {...config},
   ) {
     // Override data source config from environment variables
     Object.assign(dsConfig, {

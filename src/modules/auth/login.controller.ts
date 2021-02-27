@@ -66,7 +66,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.LOCAL)
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @post('/auth/login', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -111,7 +111,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT)
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @post('/auth/login-token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -147,7 +147,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @post('/auth/token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -193,7 +193,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @post('/auth/token-refresh', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -250,7 +250,7 @@ export class LoginController {
       };
     },
   )
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @get('/auth/google', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -290,7 +290,7 @@ export class LoginController {
       };
     },
   )
-  @authorize(['*'])
+  @authorize({permissions:['*']})
   @get('/auth/google-auth-redirect', {
     responses: {
       [STATUS_CODE.OK]: {
