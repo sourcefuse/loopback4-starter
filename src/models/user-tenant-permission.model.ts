@@ -7,7 +7,8 @@ import {UserPermission} from 'loopback4-authorization';
 @model({
   name: 'user_tenant_permissions',
 })
-export class UserTenantPermission extends UserModifiableEntity
+export class UserTenantPermission
+  extends UserModifiableEntity
   implements UserPermission<string> {
   @property({
     type: 'number',
@@ -17,7 +18,7 @@ export class UserTenantPermission extends UserModifiableEntity
 
   @belongsTo(
     () => UserTenant,
-    {keyFrom: 'user_tenant_id', name: 'user_tenant_id'},
+    {name: 'user_tenant_id'},
     {
       name: 'user_tenant_id',
       required: true,
