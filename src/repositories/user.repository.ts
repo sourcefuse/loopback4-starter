@@ -46,7 +46,7 @@ export class UserRepository extends DefaultUserModifyCrudRepository<
     try {
       // Add temporary password for first time
       const password = await bcrypt.hash(
-        process.env.USER_TEMP_PASSWORD,
+        process.env.USER_TEMP_PASSWORD as string,
         this.saltRounds,
       );
       const creds = new UserCredentials({

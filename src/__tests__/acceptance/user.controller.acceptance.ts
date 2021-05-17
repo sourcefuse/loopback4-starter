@@ -30,10 +30,7 @@ describe('User Controller', () => {
 
   it('gives status 422 when data sent is incorrect', async () => {
     const reqData = {};
-    const response = await client
-      .post(`/users`)
-      .send(reqData)
-      .expect(422);
+    const response = await client.post(`/users`).send(reqData).expect(422);
 
     expect(response).to.have.property('error');
   });

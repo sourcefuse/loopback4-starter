@@ -14,11 +14,11 @@ export class LogoutController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions:['*']})
+  @authorize({permissions: ['*']})
   @post('/logout')
   async logout(@param.header.string('Authorization') auth: string) {
     try {
-      const token = auth && auth.replace(/bearer /i, '');
+      const token = auth?.replace(/bearer /i, '');
       if (!token) {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.TokenInvalid);
       }

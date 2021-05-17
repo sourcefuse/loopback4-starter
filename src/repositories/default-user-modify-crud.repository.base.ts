@@ -1,7 +1,7 @@
 import {SoftCrudRepository} from 'loopback4-soft-delete';
 
 import {UserModifiableEntity} from '../models';
-import {DataObject, Getter, Where, Count} from '@loopback/repository';
+import {DataObject, Getter, Where, Count, Entity} from '@loopback/repository';
 import {Options} from 'loopback-datasource-juggler';
 import {PgdbDataSource} from '../datasources';
 import {AuthUser} from '../modules/auth';
@@ -11,10 +11,10 @@ import {AuthErrorKeys} from 'loopback4-authentication';
 export abstract class DefaultUserModifyCrudRepository<
   T extends UserModifiableEntity,
   ID,
-  Relations extends object = {}
+  Relations extends object = {},
 > extends SoftCrudRepository<T, ID, Relations> {
   constructor(
-    entityClass: typeof UserModifiableEntity & {
+    entityClass: typeof Entity & {
       prototype: T;
     },
     dataSource: PgdbDataSource,
@@ -28,8 +28,8 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.createdBy = currentUser.id;
-    entity.modifiedBy = currentUser.id;
+    entity.createdBy = currentUser.userTenantId;
+    entity.modifiedBy = currentUser.userTenantId;
     return super.create(entity, options);
   }
 
@@ -38,9 +38,9 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entities.forEach(entity => {
-      entity.createdBy = currentUser ? currentUser.id : 0;
-      entity.modifiedBy = currentUser ? currentUser.id : 0;
+    entities.forEach((entity) => {
+      entity.createdBy = currentUser ? currentUser.userTenantId : 0;
+      entity.modifiedBy = currentUser ? currentUser.userTenantId : 0;
     });
     return super.createAll(entities, options);
   }
@@ -50,7 +50,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.modifiedBy = currentUser.id;
+    entity.modifiedBy = currentUser.userTenantId;
     return super.save(entity, options);
   }
 
@@ -59,7 +59,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entity.modifiedBy = currentUser.id;
+    entity.modifiedBy = currentUser.userTenantId;
     return super.update(entity, options);
   }
 
@@ -72,7 +72,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modifiedBy = currentUser.userTenantId;
     return super.updateAll(data, where, options);
   }
 
@@ -85,7 +85,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modifiedBy = currentUser.userTenantId;
     return super.updateById(id, data, options);
   }
   async replaceById(
@@ -97,7 +97,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    data.modifiedBy = currentUser.id;
+    data.modifiedBy = currentUser.userTenantId;
     return super.replaceById(id, data, options);
   }
 }

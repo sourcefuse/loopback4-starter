@@ -6,12 +6,14 @@ export class ClientAuthRequest extends Model {
     type: 'string',
     required: true,
   })
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   client_id: string;
 
   @property({
     type: 'string',
     required: true,
   })
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   client_secret: string;
 
   constructor(data?: Partial<ClientAuthRequest>) {
