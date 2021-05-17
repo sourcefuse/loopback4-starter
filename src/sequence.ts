@@ -47,7 +47,7 @@ export class MySequence implements SequenceHandler {
       await this.authenticateRequestClient(request);
       const authUser: AuthUser = await this.authenticateRequest(request);
       const isAccessAllowed: boolean = await this.checkAuthorisation(
-        authUser && authUser.permissions,
+        authUser?.permissions,
         request,
       );
       if (!isAccessAllowed) {

@@ -65,7 +65,7 @@ export class User extends BaseEntity implements IAuthUser {
 
   @belongsTo(
     () => Role,
-    {keyFrom: 'role_id', name: 'role_id'},
+    {name: 'role_id'},
     {
       name: 'role_id',
       required: true,

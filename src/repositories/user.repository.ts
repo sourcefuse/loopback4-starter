@@ -27,7 +27,7 @@ export class UserRepository extends DefaultUserModifyCrudRepository<
   ) {
     super(User, dataSource, getCurrentUser);
 
-    this.role = this._createBelongsToAccessorFor(
+    this.role = this.createBelongsToAccessorFor(
       'role_id',
       roleRepositoryGetter,
     );
@@ -39,7 +39,7 @@ export class UserRepository extends DefaultUserModifyCrudRepository<
     try {
       // Add temporary password for first time
       entity.password = await bcrypt.hash(
-        process.env.USER_TEMP_PASSWORD,
+        process.env.USER_TEMP_PASSWORD as string,
         this.saltRounds,
       );
     } catch (err) {

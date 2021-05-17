@@ -10,7 +10,7 @@ import {AuthErrorKeys} from 'loopback4-authentication';
 
 export abstract class DefaultUserModifyCrudRepository<
   T extends UserModifiableEntity,
-  ID
+  ID,
 > extends SoftCrudRepository<T, ID> {
   constructor(
     entityClass: typeof UserModifiableEntity & {
@@ -37,7 +37,7 @@ export abstract class DefaultUserModifyCrudRepository<
     if (!currentUser) {
       throw new HttpErrors.Forbidden(AuthErrorKeys.InvalidCredentials);
     }
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       entity.createdBy = currentUser ? currentUser.id : 0;
       entity.modifiedBy = currentUser ? currentUser.id : 0;
     });

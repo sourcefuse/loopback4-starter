@@ -9,10 +9,7 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
-import {
-  AuthenticationBindings,
-  AuthenticationComponent,
-} from 'loopback4-authentication';
+import {AuthenticationComponent, Strategies} from 'loopback4-authentication';
 import {
   AuthorizationComponent,
   AuthorizationBindings,
@@ -44,20 +41,6 @@ export class Loopback4StarterApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-
-    // Customize authentication verify handlers
-    this.bind(
-      AuthenticationBindings.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER,
-    ).toProvider(ClientPasswordVerifyProvider);
-    this.bind(
-      AuthenticationBindings.Passport.LOCAL_PASSWORD_VERIFIER,
-    ).toProvider(LocalPasswordVerifyProvider);
-    this.bind(AuthenticationBindings.Passport.BEARER_TOKEN_VERIFIER).toProvider(
-      BearerTokenVerifyProvider,
-    );
-    this.bind(
-      AuthenticationBindings.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER,
-    ).toProvider(ResourceOwnerVerifyProvider);
     // Add authentication component
     this.component(AuthenticationComponent);
 
@@ -66,6 +49,20 @@ export class Loopback4StarterApplication extends BootMixin(
       allowAlwaysPaths: ['/explorer'],
     });
     this.component(AuthorizationComponent);
+
+    // Customize authentication verify handlers
+    this.bind(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER).toProvider(
+      ClientPasswordVerifyProvider,
+    );
+    this.bind(Strategies.Passport.LOCAL_PASSWORD_VERIFIER).toProvider(
+      LocalPasswordVerifyProvider,
+    );
+    this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
+      BearerTokenVerifyProvider,
+    );
+    this.bind(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER).toProvider(
+      ResourceOwnerVerifyProvider,
+    );
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

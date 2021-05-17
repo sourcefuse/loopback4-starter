@@ -7,8 +7,10 @@ import {User} from './user.model';
 @model({
   name: 'user_permissions',
 })
-export class UserLevelPermission extends UserModifiableEntity
-  implements UserPermission<string> {
+export class UserLevelPermission
+  extends UserModifiableEntity
+  implements UserPermission<string>
+{
   @property({
     type: 'number',
     id: true,
@@ -17,7 +19,7 @@ export class UserLevelPermission extends UserModifiableEntity
 
   @belongsTo(
     () => User,
-    {keyFrom: 'user_id', name: 'user_id'},
+    {name: 'user_id'},
     {
       name: 'user_id',
       required: true,

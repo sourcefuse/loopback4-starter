@@ -52,7 +52,7 @@ ALTER TABLE user_permissions RENAME COLUMN user_id TO user_tenant_id;
 
 ALTER TABLE user_permissions DROP CONSTRAINT fk_created_by;
 ALTER TABLE user_permissions DROP CONSTRAINT fk_modified_by;
-ALTER TABLE user_permissions DROP CONSTRAINT fk_user_tenant_permissions;
+ALTER TABLE user_permissions DROP CONSTRAINT fk_user_permissions;
 
 ALTER TABLE user_permissions ADD CONSTRAINT fk_created_by FOREIGN KEY ( created_by ) REFERENCES user_tenants( id );
 
