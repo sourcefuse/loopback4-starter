@@ -4,6 +4,7 @@ import {
   givenHttpServerConfig,
   Client,
 } from '@loopback/testlab';
+import {AuthenticationBindings} from 'loopback4-authentication';
 
 export async function setupApplication(): Promise<AppWithClient> {
   const restConfig = givenHttpServerConfig({
@@ -19,6 +20,17 @@ export async function setupApplication(): Promise<AppWithClient> {
   });
 
   await app.boot();
+
+  app.bind('datasources.config.pgdb').to({
+    name: 'pgdb',
+    connector: 'memory',
+  });
+
+  app.bind(AuthenticationBindings.CURRENT_USER).to({
+    id: 1,
+    username: 'test_user',
+    password: process.env.USER_TEMP_PASSWORD,
+  });
   await app.start();
 
   const client = createRestAppClient(app);

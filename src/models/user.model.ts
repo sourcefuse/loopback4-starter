@@ -67,7 +67,7 @@ export class User extends UserModifiableEntity implements IAuthUser {
   })
   lastLogin?: string;
 
-  @hasOne(() => UserCredentials, {keyTo: 'user_id'})
+  @hasOne(() => UserCredentials, {keyTo: 'userId'})
   credentials: UserCredentials;
 
   constructor(data?: Partial<User>) {

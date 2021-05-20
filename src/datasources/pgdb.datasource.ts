@@ -1,13 +1,13 @@
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import * as config from './pgdb.datasource.json';
+import * as config from './pgdb.datasource.config.json';
 
 export class PgdbDataSource extends juggler.DataSource {
   static dataSourceName = 'pgdb';
 
   constructor(
     @inject('datasources.config.pgdb', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = {...config},
   ) {
     // Override data source config from environment variables
     Object.assign(dsConfig, {

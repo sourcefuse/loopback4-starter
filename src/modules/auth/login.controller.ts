@@ -66,7 +66,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.LOCAL)
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/login', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -111,7 +111,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT)
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/login-token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -147,7 +147,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -193,7 +193,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/token-refresh', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -245,12 +245,12 @@ export class LoginController {
       return {
         accessType: 'offline',
         state: Object.keys(req.query)
-          .map(key => key + '=' + req.query[key])
+          .map((key) => key + '=' + req.query[key])
           .join('&'),
       };
     },
   )
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @get('/auth/google', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -285,12 +285,12 @@ export class LoginController {
       return {
         accessType: 'offline',
         state: Object.keys(req.query)
-          .map(key => `${key}=${req.query[key]}`)
+          .map((key) => `${key}=${req.query[key]}`)
           .join('&'),
       };
     },
   )
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @get('/auth/google-auth-redirect', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -381,6 +381,7 @@ export class LoginController {
       });
       authUser.permissions = this.getUserPermissions(utPerms, role.permissions);
       authUser.role = role.roleKey.toString();
+      if (userTenant.id) authUser.userTenantId = userTenant.id;
       const accessToken = jwt.sign(
         authUser.toJSON(),
         process.env.JWT_SECRET as string,

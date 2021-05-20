@@ -7,14 +7,15 @@ import {AuthUser} from '../models/auth-user.model';
 import {Tenant} from '../../../models';
 
 export class LocalPasswordVerifyProvider
-  implements Provider<VerifyFunction.LocalPasswordFn> {
+  implements Provider<VerifyFunction.LocalPasswordFn>
+{
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
   ) {}
 
   value(): VerifyFunction.LocalPasswordFn {
-    return async (username, password) => {
+    return async (username: string, password: string) => {
       const user: AuthUser = new AuthUser(
         await this.userRepository.verifyPassword(username, password),
       );

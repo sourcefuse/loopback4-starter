@@ -9,14 +9,15 @@ import {AuthenticateErrorKeys} from '../error-keys';
 import {AuthUser} from '../models/auth-user.model';
 
 export class BearerTokenVerifyProvider
-  implements Provider<VerifyFunction.BearerFn> {
+  implements Provider<VerifyFunction.BearerFn>
+{
   constructor(
     @repository(RevokedTokenRepository)
     public revokedTokenRepository: RevokedTokenRepository,
   ) {}
 
   value(): VerifyFunction.BearerFn {
-    return async token => {
+    return async (token: string) => {
       if (token && (await this.revokedTokenRepository.get(token))) {
         throw new HttpErrors.Unauthorized(AuthenticateErrorKeys.TokenRevoked);
       }

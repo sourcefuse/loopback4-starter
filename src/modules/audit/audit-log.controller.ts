@@ -29,7 +29,7 @@ export class AuditLogController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateAudit])
+  @authorize({permissions: [PermissionKey.CreateAudit]})
   @post('/audit-logs', {
     responses: {
       '200': {
@@ -39,11 +39,11 @@ export class AuditLogController {
     },
   })
   async create(@requestBody() auditLog: AuditLog): Promise<AuditLog> {
-    return await this.auditLogRepository.create(auditLog);
+    return this.auditLogRepository.create(auditLog);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions: [PermissionKey.ViewAudit]})
   @get('/audit-logs/count', {
     responses: {
       '200': {
@@ -56,11 +56,11 @@ export class AuditLogController {
     @param.query.object('where', getWhereSchemaFor(AuditLog))
     where?: Where<AuditLog>,
   ): Promise<Count> {
-    return await this.auditLogRepository.count(where);
+    return this.auditLogRepository.count(where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions: [PermissionKey.ViewAudit]})
   @get('/audit-logs', {
     responses: {
       '200': {
@@ -77,11 +77,11 @@ export class AuditLogController {
     @param.query.object('filter', getFilterSchemaFor(AuditLog))
     filter?: Filter<AuditLog>,
   ): Promise<AuditLog[]> {
-    return await this.auditLogRepository.find(filter);
+    return this.auditLogRepository.find(filter);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions: [PermissionKey.UpdateAudit]})
   @patch('/audit-logs', {
     responses: {
       '200': {
@@ -95,11 +95,11 @@ export class AuditLogController {
     @param.query.object('where', getWhereSchemaFor(AuditLog))
     where?: Where<AuditLog>,
   ): Promise<Count> {
-    return await this.auditLogRepository.updateAll(auditLog, where);
+    return this.auditLogRepository.updateAll(auditLog, where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewAudit])
+  @authorize({permissions: [PermissionKey.ViewAudit]})
   @get('/audit-logs/{id}', {
     responses: {
       '200': {
@@ -109,11 +109,11 @@ export class AuditLogController {
     },
   })
   async findById(@param.path.number('id') id: number): Promise<AuditLog> {
-    return await this.auditLogRepository.findById(id);
+    return this.auditLogRepository.findById(id);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions: [PermissionKey.UpdateAudit]})
   @patch('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -129,7 +129,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateAudit])
+  @authorize({permissions: [PermissionKey.UpdateAudit]})
   @put('/audit-logs/{id}', {
     responses: {
       '204': {
@@ -145,7 +145,7 @@ export class AuditLogController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteAudit])
+  @authorize({permissions: [PermissionKey.DeleteAudit]})
   @del('/audit-logs/{id}', {
     responses: {
       '204': {

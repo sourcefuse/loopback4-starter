@@ -1,13 +1,13 @@
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import * as config from './auditdb.datasource.json';
+import * as config from './auditdb.datasource.config.json';
 
 export class AuditdbDataSource extends juggler.DataSource {
   static dataSourceName = 'auditdb';
 
   constructor(
     @inject('datasources.config.auditdb', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = {...config},
   ) {
     // Override data source config from environment variables
     Object.assign(dsConfig, {

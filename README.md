@@ -161,7 +161,7 @@ You can try out only the unsecured APIs here, like auth/login. The secure endpoi
 
 ##### Key Notes
 
-- Database used is Postgresql.
+- Database used is Postgresql version 10 and above.
 - Database schema is based on multi-tenant architecture overall.
 - Each table have default columns - id (Primary Key), created_by, modified_by, created_on, modified_on, deleted.
 

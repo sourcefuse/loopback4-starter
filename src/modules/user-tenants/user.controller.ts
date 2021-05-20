@@ -15,22 +15,27 @@ import {
   post,
   put,
   requestBody,
+  HttpErrors,
 } from '@loopback/rest';
 import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {authorize} from 'loopback4-authorization';
 
 import {User} from '../../models';
-import {UserRepository} from '../../repositories';
+import {UserRepository, UserTenantRepository} from '../../repositories';
 import {PermissionKey} from '../auth/permission-key.enum';
 
 export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(UserTenantRepository)
+    public userTenantRepo: UserTenantRepository,
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateAnyUser, PermissionKey.CreateTenantUser])
+  @authorize({
+    permissions: [PermissionKey.CreateAnyUser, PermissionKey.CreateTenantUser],
+  })
   @post('/users', {
     responses: {
       '200': {
@@ -40,15 +45,25 @@ export class UserController {
     },
   })
   async create(@requestBody() user: User): Promise<User> {
-    return await this.userRepository.create(user);
+    if (!user.id || !user.defaultTenant) {
+      throw new HttpErrors.UnprocessableEntity(
+        'User Id or Default Tenant Id is missing in the request parameters',
+      );
+    }
+    const response = await this.userRepository.create(user);
+    await this.userTenantRepo.create(user);
+
+    return response;
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.ViewAnyUser,
-    PermissionKey.ViewOwnUser,
-    PermissionKey.ViewTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.ViewAnyUser,
+      PermissionKey.ViewOwnUser,
+      PermissionKey.ViewTenantUser,
+    ],
+  })
   @get('/users/count', {
     responses: {
       '200': {
@@ -60,15 +75,17 @@ export class UserController {
   async count(
     @param.query.object('where', getWhereSchemaFor(User)) where?: Where<User>,
   ): Promise<Count> {
-    return await this.userRepository.count(where);
+    return this.userRepository.count(where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.ViewAnyUser,
-    PermissionKey.ViewOwnUser,
-    PermissionKey.ViewTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.ViewAnyUser,
+      PermissionKey.ViewOwnUser,
+      PermissionKey.ViewTenantUser,
+    ],
+  })
   @get('/users', {
     responses: {
       '200': {
@@ -85,15 +102,17 @@ export class UserController {
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
   ): Promise<User[]> {
-    return await this.userRepository.find(filter);
+    return this.userRepository.find(filter);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.UpdateAnyUser,
-    PermissionKey.UpdateOwnUser,
-    PermissionKey.UpdateTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.UpdateAnyUser,
+      PermissionKey.UpdateOwnUser,
+      PermissionKey.UpdateTenantUser,
+    ],
+  })
   @patch('/users', {
     responses: {
       '200': {
@@ -106,15 +125,17 @@ export class UserController {
     @requestBody() user: User,
     @param.query.object('where', getWhereSchemaFor(User)) where?: Where<User>,
   ): Promise<Count> {
-    return await this.userRepository.updateAll(user, where);
+    return this.userRepository.updateAll(user, where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.ViewAnyUser,
-    PermissionKey.ViewOwnUser,
-    PermissionKey.ViewTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.ViewAnyUser,
+      PermissionKey.ViewOwnUser,
+      PermissionKey.ViewTenantUser,
+    ],
+  })
   @get('/users/{id}', {
     responses: {
       '200': {
@@ -124,15 +145,17 @@ export class UserController {
     },
   })
   async findById(@param.path.number('id') id: number): Promise<User> {
-    return await this.userRepository.findById(id);
+    return this.userRepository.findById(id);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.UpdateAnyUser,
-    PermissionKey.UpdateOwnUser,
-    PermissionKey.UpdateTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.UpdateAnyUser,
+      PermissionKey.UpdateOwnUser,
+      PermissionKey.UpdateTenantUser,
+    ],
+  })
   @patch('/users/{id}', {
     responses: {
       '204': {
@@ -148,11 +171,13 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([
-    PermissionKey.UpdateAnyUser,
-    PermissionKey.UpdateOwnUser,
-    PermissionKey.UpdateTenantUser,
-  ])
+  @authorize({
+    permissions: [
+      PermissionKey.UpdateAnyUser,
+      PermissionKey.UpdateOwnUser,
+      PermissionKey.UpdateTenantUser,
+    ],
+  })
   @put('/users/{id}', {
     responses: {
       '204': {
@@ -168,7 +193,9 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteAnyUser, PermissionKey.DeleteTenantUser])
+  @authorize({
+    permissions: [PermissionKey.DeleteAnyUser, PermissionKey.DeleteTenantUser],
+  })
   @del('/users/{id}', {
     responses: {
       '204': {

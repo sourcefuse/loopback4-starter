@@ -6,7 +6,8 @@ import {UserRepository, AuthClientRepository} from '../../../repositories';
 import {HttpErrors} from '@loopback/rest';
 
 export class ResourceOwnerVerifyProvider
-  implements Provider<VerifyFunction.ResourceOwnerPasswordFn> {
+  implements Provider<VerifyFunction.ResourceOwnerPasswordFn>
+{
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
