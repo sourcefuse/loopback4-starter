@@ -40,7 +40,7 @@ export class RoleController {
     },
   })
   async create(@requestBody() role: Role): Promise<Role> {
-    return await this.roleRepository.create(role);
+    return this.roleRepository.create(role);
   }
 
   @authenticate(STRATEGY.BEARER)
@@ -56,7 +56,7 @@ export class RoleController {
   async count(
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
-    return await this.roleRepository.count(where);
+    return this.roleRepository.count(where);
   }
 
   @authenticate(STRATEGY.BEARER)
@@ -77,7 +77,7 @@ export class RoleController {
     @param.query.object('filter', getFilterSchemaFor(Role))
     filter?: Filter<Role>,
   ): Promise<Role[]> {
-    return await this.roleRepository.find(filter);
+    return this.roleRepository.find(filter);
   }
 
   @authenticate(STRATEGY.BEARER)
@@ -94,7 +94,7 @@ export class RoleController {
     @requestBody() role: Role,
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
-    return await this.roleRepository.updateAll(role, where);
+    return this.roleRepository.updateAll(role, where);
   }
 
   @authenticate(STRATEGY.BEARER)
@@ -108,7 +108,7 @@ export class RoleController {
     },
   })
   async findById(@param.path.number('id') id: number): Promise<Role> {
-    return await this.roleRepository.findById(id);
+    return this.roleRepository.findById(id);
   }
 
   @authenticate(STRATEGY.BEARER)

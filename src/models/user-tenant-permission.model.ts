@@ -9,7 +9,8 @@ import {UserPermission} from 'loopback4-authorization';
 })
 export class UserTenantPermission
   extends UserModifiableEntity
-  implements UserPermission<string> {
+  implements UserPermission<string>
+{
   @property({
     type: 'number',
     id: true,

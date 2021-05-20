@@ -33,56 +33,50 @@ describe('Login Controller', () => {
 
   it('gives status 422 for login request with no client credentials', async () => {
     const reqData = {};
-    const response = await client
-      .post(`/auth/login`)
-      .send(reqData)
-      .expect(422);
+    const response = await client.post(`/auth/login`).send(reqData).expect(422);
 
     expect(response).to.have.property('error');
   });
 
   it('gives status 422 for login request with no user credentials', async () => {
     const reqData = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_id: 'web',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_secret: 'blah',
     };
 
-    const response = await client
-      .post(`/auth/login`)
-      .send(reqData)
-      .expect(422);
+    const response = await client.post(`/auth/login`).send(reqData).expect(422);
 
     expect(response).to.have.property('error');
   });
 
   it('gives status 401 for login request with wrong client credentials', async () => {
     const reqData = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_id: 'web1',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_secret: 'blah1',
       username: 'super_admin',
       password: 'test123!@#',
     };
 
-    const response = await client
-      .post(`/auth/login`)
-      .send(reqData)
-      .expect(401);
+    const response = await client.post(`/auth/login`).send(reqData).expect(401);
 
     expect(response).to.have.property('error');
   });
 
   it('gives status 401 for login request with wrong user credentials', async () => {
     const reqData = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_id: 'webapp',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_secret: 'saqw21!@',
       username: 'someuser',
       password: 'somepassword',
     };
 
-    const response = await client
-      .post(`/auth/login`)
-      .send(reqData)
-      .expect(401);
+    const response = await client.post(`/auth/login`).send(reqData).expect(401);
 
     expect(response).to.have.property('error');
   });
@@ -127,13 +121,15 @@ describe('Login Controller', () => {
 
   async function authLogin() {
     const reqData = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_id: 'web',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       client_secret: 'test',
       username: 'test_user',
       password: process.env.USER_TEMP_PASSWORD,
     };
 
-    return await client.post(`/auth/login`).send(reqData);
+    return client.post(`/auth/login`).send(reqData);
   }
 
   async function authToken(code: string) {

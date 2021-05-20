@@ -5,6 +5,12 @@ import {Tenant, User} from '../../../models';
 @model()
 export class AuthUser extends User {
   @property({
+    type: 'number',
+    required: true,
+  })
+  userTenantId: number;
+
+  @property({
     type: 'array',
     itemType: 'string',
   })

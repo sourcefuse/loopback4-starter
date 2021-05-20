@@ -65,11 +65,11 @@ export class UserTenantRepository extends DefaultSoftCrudRepository<
         name: process.env.DEFAULT_ROLE,
       },
     });
-    if (role && role.id) {
+    if (role?.id) {
       userTenant.roleId = role.id;
     } else {
       throw new HttpErrors.UnprocessableEntity('Failed to set default role.');
     }
-    return await super.create(userTenant);
+    return super.create(userTenant);
   }
 }
