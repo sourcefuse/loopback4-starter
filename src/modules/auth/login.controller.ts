@@ -53,7 +53,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.LOCAL)
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/login', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -98,7 +98,7 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT)
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/login-token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -134,7 +134,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/token', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -171,7 +171,7 @@ export class LoginController {
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.CodeExpired);
-      } else if (HttpErrors.HttpError.prototype.isPrototypeOf(error)) {
+      } else if ({}.isPrototypeOf.call(HttpErrors.HttpError.prototype, error)) {
         throw error;
       } else {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
@@ -179,7 +179,7 @@ export class LoginController {
     }
   }
 
-  @authorize(['*'])
+  @authorize({permissions: ['*']})
   @post('/auth/token-refresh', {
     responses: {
       [STATUS_CODE.OK]: {
@@ -268,7 +268,7 @@ export class LoginController {
       );
       return new TokenResponse({accessToken, refreshToken});
     } catch (error) {
-      if (HttpErrors.HttpError.prototype.isPrototypeOf(error)) {
+      if ({}.isPrototypeOf.call(HttpErrors.HttpError.prototype, error)) {
         throw error;
       } else {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);

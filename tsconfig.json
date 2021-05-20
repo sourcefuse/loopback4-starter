@@ -2,7 +2,12 @@
   "$schema": "http://json.schemastore.org/tsconfig",
   "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
-    "rootDir": "src"
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "target": "es2017"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

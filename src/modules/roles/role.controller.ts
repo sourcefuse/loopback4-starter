@@ -30,7 +30,7 @@ export class RoleController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.CreateRole])
+  @authorize({permissions: [PermissionKey.CreateRole]})
   @post('/roles', {
     responses: {
       '200': {
@@ -40,11 +40,11 @@ export class RoleController {
     },
   })
   async create(@requestBody() role: Role): Promise<Role> {
-    return await this.roleRepository.create(role);
+    return this.roleRepository.create(role);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles/count', {
     responses: {
       '200': {
@@ -56,11 +56,11 @@ export class RoleController {
   async count(
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where,
   ): Promise<Count> {
-    return await this.roleRepository.count(where);
+    return this.roleRepository.count(where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles', {
     responses: {
       '200': {
@@ -74,13 +74,14 @@ export class RoleController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Role)) filter?: Filter,
+    @param.query.object('filter', getFilterSchemaFor(Role))
+    filter?: Filter<Role>,
   ): Promise<Role[]> {
-    return await this.roleRepository.find(filter);
+    return this.roleRepository.find(filter);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @patch('/roles', {
     responses: {
       '200': {
@@ -93,11 +94,11 @@ export class RoleController {
     @requestBody() role: Role,
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where,
   ): Promise<Count> {
-    return await this.roleRepository.updateAll(role, where);
+    return this.roleRepository.updateAll(role, where);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.ViewRole])
+  @authorize({permissions: [PermissionKey.ViewRole]})
   @get('/roles/{id}', {
     responses: {
       '200': {
@@ -107,11 +108,11 @@ export class RoleController {
     },
   })
   async findById(@param.path.number('id') id: number): Promise<Role> {
-    return await this.roleRepository.findById(id);
+    return this.roleRepository.findById(id);
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @patch('/roles/{id}', {
     responses: {
       '204': {
@@ -127,7 +128,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.UpdateRole])
+  @authorize({permissions: [PermissionKey.UpdateRole]})
   @put('/roles/{id}', {
     responses: {
       '204': {
@@ -143,7 +144,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize([PermissionKey.DeleteRole])
+  @authorize({permissions: [PermissionKey.DeleteRole]})
   @del('/roles/{id}', {
     responses: {
       '204': {

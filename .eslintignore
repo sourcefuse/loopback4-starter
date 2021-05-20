@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+api-docs/
+migrations/
+
+index.js
+index.ts
+.eslintrc.js
