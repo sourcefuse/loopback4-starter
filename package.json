@@ -60,7 +60,7 @@
     "@loopback/repository": "^3.6.0",
     "@loopback/rest": "^9.3.0",
     "@loopback/rest-crud": "^0.10.0",
-    "@loopback/rest-explorer": "^3.3.0",
+    "@loopback/rest-explorer": "^4.0.1",
     "@loopback/service-proxy": "^3.2.0",
     "@types/app-root-path": "^1.2.4",
     "@types/bcrypt": "^5.0.0",
