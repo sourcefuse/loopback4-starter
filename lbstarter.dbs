@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="PostgreSQL" id="Project_2cbf47" template="Default" database="PostgreSQL" >
-	<schema name="lbstarter" schemaname="lbstarter" >
+<project name="PostgreSQL" id="Project_2cbf47" database="PostgreSQL" >
+	<schema name="lbstarter" >
 		<table name="auth_clients" >
-			<column name="id" type="integer" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="client_id" type="varchar" length="50" jt="12" mandatory="y" />
 			<column name="client_secret" type="varchar" length="50" jt="12" mandatory="y" />
 			<column name="redirect_url" type="varchar" length="200" jt="12" />
 			<column name="access_token_expiration" type="integer" jt="4" mandatory="y" >
-				<defo>900</defo>
+				<defo><![CDATA[900]]></defo>
 			</column>
 			<column name="refresh_token_expiration" type="integer" jt="4" mandatory="y" >
-				<defo>86400</defo>
+				<defo><![CDATA[86400]]></defo>
 			</column>
 			<column name="auth_code_expiration" type="integer" jt="4" mandatory="y" >
-				<defo>180</defo>
+				<defo><![CDATA[180]]></defo>
 			</column>
 			<column name="secret" type="varchar" length="50" jt="12" mandatory="y" />
 			<column name="created_on" type="timestamptz" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
-			<column name="deleted" type="bool" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="user_ids" type="integer[]" length="10" decimal="0" jt="2003" />
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_auth_clients_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
 		<table name="roles" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="name" type="varchar" length="100" decimal="0" jt="12" mandatory="y" />
 			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
-			<column name="permissions" type="_text" decimal="0" jt="2003" />
+			<column name="permissions" type="text[]" decimal="0" jt="2003" />
 			<column name="role_key" type="integer" jt="4" mandatory="y" />
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_roles_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -52,19 +64,21 @@
 			</index>
 		</table>
 		<table name="tenants" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="name" type="varchar" length="100" decimal="0" jt="12" mandatory="y" />
 			<column name="type" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
 			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
 			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="address1" type="varchar" length="100" decimal="0" jt="12" />
 			<column name="address2" type="varchar" length="100" decimal="0" jt="12" />
@@ -75,8 +89,12 @@
 			<column name="zip" type="varchar" length="20" decimal="0" jt="12" />
 			<column name="country" type="varchar" length="50" decimal="0" jt="12" />
 			<column name="status" type="varchar" length="50" jt="12" mandatory="y" >
-				<defo>&#039;active&#039;::character varying</defo>
+				<defo><![CDATA['active'::character varying]]></defo>
 			</column>
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_tenant_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -94,25 +112,31 @@
 			</fk>
 		</table>
 		<table name="user_credentials" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="user_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="auth_provider" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
 			<column name="auth_id" type="varchar" length="100" decimal="0" jt="12" />
 			<column name="auth_token" type="varchar" length="100" decimal="0" jt="12" />
 			<column name="password" type="varchar" length="60" decimal="0" jt="12" />
 			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_user_credentials_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
-			<index name="idx_user_credentials_user_id" unique="UNIQUE" >
+			<index name="idx_user_credentials_user_id" unique="UNIQUE_KEY" >
 				<column name="user_id" />
 			</index>
 			<index name="idx_user_credentials" unique="NORMAL" >
@@ -123,23 +147,29 @@
 			</fk>
 		</table>
 		<table name="user_tenant_permissions" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="user_tenant_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="created_on" type="date" length="13" decimal="0" jt="91" mandatory="y" >
-				<defo>CURRENT_DATE</defo>
+				<defo><![CDATA[CURRENT_DATE]]></defo>
 			</column>
 			<column name="modified_on" type="date" length="13" decimal="0" jt="91" mandatory="y" >
-				<defo>CURRENT_DATE</defo>
+				<defo><![CDATA[CURRENT_DATE]]></defo>
 			</column>
 			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
 			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="permission" type="text" decimal="0" jt="12" mandatory="y" />
-			<column name="allowed" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>true</defo>
+			<column name="allowed" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[true]]></defo>
 			</column>
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_user_permissions_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -163,22 +193,28 @@
 			</fk>
 		</table>
 		<table name="user_tenants" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="user_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="tenant_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="role_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="status" type="varchar" length="50" decimal="0" jt="12" mandatory="y" >
-				<defo>&#039;active&#039;::character varying</defo>
+				<defo><![CDATA['active'::character varying]]></defo>
 			</column>
+			<column name="deleted_on" type="timestamp" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_user_tenant_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -202,7 +238,9 @@
 			</fk>
 		</table>
 		<table name="users" >
-			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="id" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<column name="first_name" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
 			<column name="middle_name" type="varchar" length="50" decimal="0" jt="12" />
 			<column name="last_name" type="varchar" length="50" decimal="0" jt="12" />
@@ -210,22 +248,24 @@
 			<column name="email" type="varchar" length="150" decimal="0" jt="12" />
 			<column name="phone" type="varchar" length="15" decimal="0" jt="12" />
 			<column name="created_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="modified_on" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>CURRENT_TIMESTAMP</defo>
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
 			<column name="created_by" type="integer" length="10" decimal="0" jt="4" />
 			<column name="modified_by" type="integer" length="10" decimal="0" jt="4" />
-			<column name="deleted" type="bool" length="1" decimal="0" jt="-7" mandatory="y" >
-				<defo>false</defo>
+			<column name="deleted" type="boolean" length="1" decimal="0" jt="16" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<column name="default_tenant" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="last_login" type="timestamptz" length="35" decimal="6" jt="93" />
+			<column name="deleted_on" type="timestamp" jt="93" />
+			<column name="deleted_by" type="varchar" length="200" jt="12" />
 			<index name="pk_user_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
-			<index name="idx_username" unique="UNIQUE" >
+			<index name="idx_username" unique="UNIQUE_KEY" >
 				<column name="username" />
 			</index>
 			<index name="idx_user_created_by" unique="NORMAL" >
@@ -247,18 +287,18 @@
 				<fk_column name="modified_by" pk="id" />
 			</fk>
 		</table>
-		<sequence name="auth_clients_id_seq" start="1" />
-		<sequence name="roles_id_seq" start="1" />
-		<sequence name="roles_id_seq1" start="1" />
-		<sequence name="tenants_id_seq" start="1" />
-		<sequence name="tenants_id_seq1" start="1" />
-		<sequence name="user_credentials_id_seq" start="1" />
-		<sequence name="user_tenant_permissions_id_seq" start="1" />
-		<sequence name="user_tenant_permissions_id_seq1" start="1" />
-		<sequence name="user_tenants_id_seq" start="1" />
-		<sequence name="user_tenants_id_seq1" start="1" />
-		<sequence name="users_id_seq" start="1" />
-		<sequence name="users_id_seq1" start="1" />
+		<sequence name="auth_clients_id_seq" />
+		<sequence name="roles_id_seq" />
+		<sequence name="roles_id_seq1" />
+		<sequence name="tenants_id_seq" />
+		<sequence name="tenants_id_seq1" />
+		<sequence name="user_credentials_id_seq" />
+		<sequence name="user_tenant_permissions_id_seq" />
+		<sequence name="user_tenant_permissions_id_seq1" />
+		<sequence name="user_tenants_id_seq" />
+		<sequence name="user_tenants_id_seq1" />
+		<sequence name="users_id_seq" />
+		<sequence name="users_id_seq1" />
 		<trigger name="mdt_roles" table="roles" id="Trigger_377b014" isSystem="false" >
 			<string><![CDATA[CREATE TRIGGER mdt_roles BEFORE UPDATE ON lbstarter.roles FOR EACH ROW EXECUTE PROCEDURE moddatetime();]]></string>
 		</trigger>
@@ -284,27 +324,55 @@
 			<string><![CDATA[CREATE TRIGGER users_audit_trigger AFTER INSERT OR DELETE OR UPDATE ON lbstarter.users FOR EACH ROW EXECUTE PROCEDURE logs.audit_trigger('USER_LOGS');]]></string>
 		</trigger>
 	</schema>
-	<schema name="logs" schemaname="logs" >
+	<schema name="public" catalogname="lbstarter" >
+		<table name="migrations" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
+			<column name="name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="run_on" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" />
+			<index name="migrations_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<sequence name="migrations_id_seq" />
+		<procedure name="moddatetime" id="Procedure_4f4e99" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE OR REPLACE FUNCTION public.moddatetime()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.modified_on = now();
+    RETURN NEW;
+END;
+$function$
+;]]></string>
+			<result_param name="returnValue" jt="1111" type="trigger" />
+		</procedure>
+	</schema>
+	<schema name="logs" >
 		<table name="audit_logs" >
 			<column name="operation_name" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
 			<column name="operation_time" type="timestamptz" length="35" decimal="6" jt="93" mandatory="y" >
-				<defo>now()</defo>
+				<defo><![CDATA[now()]]></defo>
 			</column>
 			<column name="table_name" type="varchar" length="60" decimal="0" jt="12" mandatory="y" />
 			<column name="log_type" type="varchar" length="100" decimal="0" jt="12" >
-				<defo>&#039;APPLICATION_LOGS&#039;::character varying</defo>
+				<defo><![CDATA['APPLICATION_LOGS'::character varying]]></defo>
 			</column>
 			<column name="entity_id" type="varchar" decimal="0" jt="12" />
 			<column name="user_id" type="varchar" decimal="0" jt="12" />
-			<column name="before" type="jsonb" decimal="0" jt="1111" />
-			<column name="after" type="jsonb" decimal="0" jt="1111" />
-			<column name="id" type="integer" jt="4" mandatory="y" autoincrement="y" />
+			<column name="before" type="jsonb" decimal="0" jt="2000" />
+			<column name="after" type="jsonb" decimal="0" jt="2000" />
+			<column name="id" type="integer" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED {BY DEFAULT|ALWAYS} AS IDENTITY [(AS ~dataType~ |INCREMENT BY ~increment~ |MINVALUE ~minvalue~ |NO MINVALUE |MAXVALUE ~maxvalue~ |NO MAXVALUE |START WITH ~start~ |CACHE ~cache~ |CYCLE |OWNED BY ~tableDotColumn~ )] |GENERATED ALWAYS AS ( ~generation_expr~ ) [STORED]]]></identity>
+			</column>
 			<index name="pk_audit_logs_id" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
-		<sequence name="audit_logs_id_seq" start="1" />
-		<sequence name="audit_logs_id_seq1" start="1" />
+		<sequence name="audit_logs_id_seq" />
+		<sequence name="audit_logs_id_seq1" />
 		<procedure name="audit_trigger" id="Procedure_133635" isSystem="false" params_known="y" >
 			<string><![CDATA[CREATE OR REPLACE FUNCTION logs.audit_trigger()
  RETURNS trigger
@@ -387,40 +455,16 @@ $function$
 			<result_param name="returnValue" jt="1111" type="trigger" />
 		</procedure>
 	</schema>
-	<schema name="public" catalogname="lbstarter" schemaname="public" >
-		<table name="migrations" >
-			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
-			<column name="name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
-			<column name="run_on" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" />
-			<index name="migrations_pkey" unique="PRIMARY_KEY" >
-				<column name="id" />
-			</index>
-		</table>
-		<sequence name="migrations_id_seq" start="1" />
-		<procedure name="moddatetime" id="Procedure_4f4e99" isSystem="false" params_known="y" >
-			<string><![CDATA[CREATE OR REPLACE FUNCTION public.moddatetime()
- RETURNS trigger
- LANGUAGE plpgsql
-AS $function$
-BEGIN
-    NEW.modified_on = now();
-    RETURN NEW;
-END;
-$function$
-;]]></string>
-			<result_param name="returnValue" jt="1111" type="trigger" />
-		</procedure>
-	</schema>
-	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.2.2.jar" driver_desc="Standard" host="localhost" port="5432" instance="lbstarter" user="postgres" passwd="cG9zdGdyZXN0ZXN0" />
+	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.5.3.jar" driver_desc="Standard" host="localhost" port="5432" instance="lbstarter" user="postgres" passwd="cG9zdGdyZXN0ZXN0" useSystemProxy="false" />
 	<layout name="Parsed Script Layout" id="Layout_1041beb" show_relation="no_text" >
-		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="320" />
+		<entity schema="logs" name="audit_logs" color="3986C1" x="880" y="80" />
+		<entity schema="lbstarter" name="auth_clients" color="C1D8EE" x="880" y="400" />
 		<entity schema="lbstarter" name="roles" color="BED3F4" x="112" y="96" />
 		<entity schema="lbstarter" name="tenants" color="BED3F4" x="288" y="320" />
-		<entity schema="lbstarter" name="users" color="BED3F4" x="464" y="80" />
-		<entity schema="lbstarter" name="auth_clients" color="C1D8EE" x="880" y="400" />
-		<entity schema="logs" name="audit_logs" color="3986C1" x="880" y="80" />
-		<entity schema="lbstarter" name="user_tenants" color="3986C1" x="288" y="80" />
 		<entity schema="lbstarter" name="user_credentials" color="3986C1" x="656" y="80" />
+		<entity schema="lbstarter" name="user_tenant_permissions" color="BED3F4" x="48" y="320" />
+		<entity schema="lbstarter" name="user_tenants" color="3986C1" x="288" y="80" />
+		<entity schema="lbstarter" name="users" color="BED3F4" x="464" y="80" />
 		<group name="audit" color="C4E0F9" >
 			<entity schema="logs" name="audit_logs" />
 		</group>
@@ -428,11 +472,11 @@ $function$
 			<entity schema="lbstarter" name="auth_clients" />
 		</group>
 		<group name="user_tenants" color="ECF0F7" >
-			<entity schema="lbstarter" name="tenants" />
-			<entity schema="lbstarter" name="users" />
 			<entity schema="lbstarter" name="roles" />
+			<entity schema="lbstarter" name="tenants" />
 			<entity schema="lbstarter" name="user_tenant_permissions" />
 			<entity schema="lbstarter" name="user_tenants" />
+			<entity schema="lbstarter" name="users" />
 			<entity schema="lbstarter" name="user_credentials" />
 		</group>
 		<script name="SQL_Editor" id="Editor_1274822" language="SQL" >
@@ -454,7 +498,6 @@ ALTER TABLE lbstarter.tenants ADD CONSTRAINT fk_modified_by FOREIGN KEY ( modifi
 ALTER TABLE lbstarter.users ADD CONSTRAINT fk_user_user_tenant_created_by FOREIGN KEY ( created_by ) REFERENCES lbstarter.user_tenants( id );
 
 ALTER TABLE lbstarter.users ADD CONSTRAINT fk_user_user_tenant_modified_by FOREIGN KEY ( modified_by ) REFERENCES lbstarter.user_tenants( id );
-
 
 ]]></string>
 		</script>

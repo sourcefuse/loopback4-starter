@@ -9,6 +9,8 @@ CREATE TABLE user_credentials (
   created_on           timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL ,
 	modified_on          timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL ,
 	deleted              bool DEFAULT false NOT NULL ,
+  deleted_on          timestamptz DEFAULT current_timestamp ,
+	deleted_by          varchar(200),
   CONSTRAINT pk_user_credentials_id PRIMARY KEY ( id ),
   CONSTRAINT idx_user_credentials_user_id UNIQUE ( user_id )
 );
