@@ -10,6 +10,8 @@ CREATE TABLE lbstarter.auth_clients (
 	created_on           timestamptz DEFAULT current_timestamp NOT NULL ,
 	modified_on          timestamptz DEFAULT current_timestamp NOT NULL ,
 	deleted              bool DEFAULT false NOT NULL ,
+	deleted_on          timestamptz DEFAULT current_timestamp ,
+	deleted_by          varchar(200),
 	user_ids             integer[],
 	CONSTRAINT pk_auth_clients_id PRIMARY KEY ( id )
 );
