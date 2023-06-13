@@ -73,7 +73,7 @@
     "db-migrate-pg": "^1.2.2",
     "dotenv": "^9.0.2",
     "dotenv-extended": "^2.9.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "loopback-connector-kv-redis": "^4.0.0",
     "loopback-connector-postgresql": "^5.4.0",
