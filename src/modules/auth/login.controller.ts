@@ -129,8 +129,6 @@ export class LoginController {
   ): Promise<TokenResponse> {
     if (!this.client || !this.user) {
       throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
-    } else if (!this.client.userIds || this.client.userIds.length === 0) {
-      throw new HttpErrors.UnprocessableEntity(AuthErrorKeys.ClientUserMissing);
     } else if (!req.client_secret) {
       throw new HttpErrors.BadRequest(AuthErrorKeys.ClientSecretMissing);
     }
@@ -182,7 +180,7 @@ export class LoginController {
 
       return await this.createJWT(payload, authClient);
     } catch (error) {
-      if (error.name === 'TokenExpiredError') {
+      if (error === 'TokenExpiredError') {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.CodeExpired);
         // eslint-disable-next-line no-prototype-builtins
       } else if (HttpErrors.HttpError.prototype.isPrototypeOf(error)) {
@@ -317,7 +315,7 @@ export class LoginController {
         clientId: clientId,
       },
     });
-    if (!client || !client.redirectUrl) {
+    if (!client?.redirectUrl) {
       throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
     }
     try {

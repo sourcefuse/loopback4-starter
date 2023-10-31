@@ -26,7 +26,7 @@ export class ResourceOwnerVerifyProvider
           clientId,
         },
       });
-      if (!client || client.userIds.indexOf(user.id || 0) < 0) {
+      if (!client) {
         throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
       } else if (!client.clientSecret || client.clientSecret !== clientSecret) {
         throw new HttpErrors.Unauthorized(

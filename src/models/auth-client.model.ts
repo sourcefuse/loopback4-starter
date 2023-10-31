@@ -40,13 +40,6 @@ export class AuthClient extends BaseEntity implements IAuthClient {
   redirectUrl?: string;
 
   @property({
-    type: 'array',
-    itemType: 'number',
-    name: 'user_ids',
-  })
-  userIds: number[];
-
-  @property({
     type: 'number',
     required: true,
     name: 'access_token_expiration',
