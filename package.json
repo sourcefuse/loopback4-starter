@@ -69,7 +69,7 @@
     "@types/morgan": "^1.9.7",
     "@types/passport-google-oauth20": "^2.0.13",
     "app-root-path": "^3.1.0",
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "db-migrate": "^0.11.14",
     "db-migrate-pg": "^1.5.2",
     "dotenv": "^16.3.1",
