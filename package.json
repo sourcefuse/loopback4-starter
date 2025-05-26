@@ -86,7 +86,7 @@
     "morgan": "^1.10.0",
     "npm": "^7.13.0",
     "prom-client": "^15.0.0",
-    "tsc-watch": "^4.2.9",
+    "tsc-watch": "^7.0.0",
     "tslib": "^2.6.2",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1"
